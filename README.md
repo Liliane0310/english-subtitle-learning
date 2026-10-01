@@ -28,10 +28,9 @@ english-subtitle-learning/
 │   ├── references/
 │   │   └── data-format.md          # 词条 JSON 字段细节（校验报错时查）
 │   └── examples/                   # 演示数据与渲染样张
-├── note-*.html / note-*.md         # 真实生成样例（见下方示例输出）
-├── docs/                           # README 配图
+├── samples/                        # 真实生成样例（见下方示例输出）
+├── docs/                           # README 配图 + 设计 Token 预览
 ├── english-subtitle-to-note-prompt.md   # 纯提示词版，可贴给任何 AI 使用
-├── english-note-token-preview.html      # 设计 Token 预览（配色/字体/版式）
 └── .gitignore
 ```
 
@@ -39,10 +38,10 @@ english-subtitle-learning/
 
 ![《Zootopia 2》预习笔记效果预览](docs/preview-zootopia-note.png)
 
-- [《The SpongeBob Movie: Search for SquarePants》(2025) 预习笔记](note-spongebob-movie-2025.html) · 24 条表达 · 字幕由用户提供
-- [《Zootopia 2》(2025) 预习笔记](note-zootopia-2-2025.html) · 24 条表达 · 字幕检索自 subtitlecat.com
+- [《The SpongeBob Movie: Search for SquarePants》(2025) 预习笔记](samples/note-spongebob-movie-2025.html) · 24 条表达 · 字幕由用户提供
+- [《Zootopia 2》(2025) 预习笔记](samples/note-zootopia-2-2025.html) · 24 条表达 · 字幕检索自 subtitlecat.com
 
-每份笔记附同名 `.md` 摘要。笔记只收录精选例句，不分发整集字幕。
+每份笔记附同名 `.md` 摘要（见 `samples/` 目录）。笔记只收录精选例句，不分发整集字幕。
 
 ## 安装
 
