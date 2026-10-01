@@ -5,7 +5,7 @@
 #   bash install.sh [user/repo]        # 本地模式：仓库 clone 下来后直接运行
 set -euo pipefail
 
-REPO="${1:-<user>/english-subtitle-learning}"   # TODO: 建仓后把 <user> 改成你的 GitHub 用户名
+REPO="${1:-Liliane0310/english-subtitle-learning}"   # 默认仓库，可用参数覆盖
 SKILL_NAME="subtitle-note"
 TARGET="${HOME}/.zcode/skills/${SKILL_NAME}"
 

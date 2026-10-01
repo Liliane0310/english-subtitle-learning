@@ -49,31 +49,27 @@ english-subtitle-learning/
 **macOS / Linux（curl 一行装）：**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/<你的用户名>/english-subtitle-learning/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Liliane0310/english-subtitle-learning/main/install.sh | bash
 ```
 
 **Windows（PowerShell 一行装）：**
 
 ```powershell
-irm https://raw.githubusercontent.com/<你的用户名>/english-subtitle-learning/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/Liliane0310/english-subtitle-learning/main/install.ps1 | iex
 ```
 
 **任意平台（有 Node 和 Git 即可，无需发布 npm 包）：**
 
 ```bash
-npx github:<你的用户名>/english-subtitle-learning
+npx github:Liliane0310/english-subtitle-learning
 ```
 
 **手动安装（git clone）：**
 
 ```bash
-git clone https://github.com/<你的用户名>/english-subtitle-learning.git
+git clone https://github.com/Liliane0310/english-subtitle-learning.git
 cd english-subtitle-learning && bash install.sh   # Windows 用 .\install.ps1
 ```
-
-安装（或更新）就是把 `skill/` 覆盖到 `~/.zcode/skills/subtitle-note/`；卸载直接删除该目录。生成笔记还需要 Python 3（脚本仅用标准库）。
-
-> 发布前记得把 `install.sh` / `install.ps1` / `install.js` 顶部的 `<user>` 默认仓库名改成你的 GitHub 用户名。
 
 安装后新开一个会话，对 AI 说"字幕笔记""预习笔记""把这集字幕整理成笔记"等就会触发。
 

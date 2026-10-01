@@ -1,10 +1,10 @@
 ﻿# subtitle-note skill 一键安装（Windows PowerShell）
 # 用法:
-#   irm https://raw.githubusercontent.com/<user>/<repo>/main/install.ps1 | iex
+#   irm https://raw.githubusercontent.com/Liliane0310/english-subtitle-learning/main/install.ps1 | iex
 #   .\install.ps1 [user/repo]          # 本地模式：仓库 clone 下来后直接运行
 $ErrorActionPreference = "Stop"
 
-$repo   = if ($args.Count -gt 0) { $args[0] } else { "<user>/english-subtitle-learning" }   # TODO: 建仓后改 <user>
+$repo   = if ($args.Count -gt 0) { $args[0] } else { "Liliane0310/english-subtitle-learning" }   # 默认仓库，可用参数覆盖
 $name   = "subtitle-note"
 $target = Join-Path $HOME ".zcode\skills\$name"
 

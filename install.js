@@ -7,7 +7,7 @@ const { cpSync, rmSync, mkdirSync } = require("fs");
 const path = require("path");
 const os = require("os");
 
-const repo = process.argv[2] || "<user>/english-subtitle-learning"; // TODO: 建仓后改 <user>
+const repo = process.argv[2] || "Liliane0310/english-subtitle-learning"; // 默认仓库，可用参数覆盖
 const target = path.join(os.homedir(), ".zcode", "skills", "subtitle-note");
 const tmp = path.join(os.tmpdir(), `subtitle-note-install-${Date.now()}`);
 
