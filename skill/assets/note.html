@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="print">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>__TITLE__</title>
+<style>
+/* ===== 色彩 Token · 打印主题（灰度安全，全部实色，无渐变/投影/半透明） ===== */
+:root{
+  --paper:#FBFAF7;      /* 页面底色，暖白 */
+  --sheet:#FFFFFF;      /* 纸面 */
+  --ink:#1A1A1A;        /* 正文、词头 */
+  --ink-2:#4A4A4A;      /* 释义、翻译、辅助 */
+  --ink-3:#8A857D;      /* 元信息、答案 */
+  --rule:#D8D4CE;       /* 细线、三线表内线 */
+  --rule-strong:#1A1A1A;/* 三线表上下粗线 */
+  --wash:#F3F2EF;       /* 规则框底，实色 */
+  --accent:#2F4E6E;     /* 唯一强调色：编号、规则框左边线 */
+  --mark:#A6392E;       /* 仅用于 ✗ */
+  --hl:#EFE3C8;         /* 高亮底，实色平涂 */
+
+  /* 分类色在打印主题下一律塌缩为墨色，层级交给字重、字号与细线 */
+  --c-vocab:var(--ink); --c-phrase:var(--ink); --c-grammar:var(--ink); --c-review:var(--ink-2);
+
+  --font-body:"Times New Roman","Songti SC",SimSun,"Noto Serif SC",serif;
+  --font-head:"Times New Roman","Heiti SC",SimHei,"Microsoft YaHei","Noto Sans SC",sans-serif;
+  --font-mono:Consolas,"Courier New","Songti SC",monospace;
+}
+/* 屏幕阅读可选的语义色主题；打印时不生效 */
+html[data-theme="color"]{
+  --c-vocab:#E58522; --c-phrase:#00AA90; --c-grammar:#58B2DC; --c-review:#B481BB;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--font-body);font-size:10.5pt;line-height:1.5;
+  font-synthesis:none;-webkit-font-smoothing:antialiased;line-break:strict;overflow-wrap:break-word;
+}
+p{margin:0 0 1.2em}          /* 段间距 12.6pt > 行距 15.75pt 的观感靠段首行对齐保证 */
+h1,h2{margin:0;text-wrap:balance}
+table{border-collapse:collapse;width:100%}
+.num,.tnum{font-variant-numeric:tabular-nums}
+
+/* ===== 版面：A4 · 四边 25mm（屏幕上以纸张卡片呈现，四边内衬 25mm） ===== */
+.toolbar{max-width:210mm;margin:18px auto 0;display:flex;justify-content:flex-end;gap:8px}
+.toolbar button{
+  font-family:var(--font-head);font-size:9pt;color:var(--ink-2);background:var(--sheet);
+  border:1px solid var(--rule);border-radius:4px;padding:5px 12px;cursor:pointer;
+}
+.toolbar button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.sheet{width:210mm;max-width:calc(100% - 24px);margin:18px auto 40px;background:var(--sheet);padding:25mm 25mm 20mm}
+
+/* ===== 页眉跑马行 ===== */
+.runhead{
+  display:flex;justify-content:space-between;gap:12px;
+  font-family:var(--font-head);font-size:8.5pt;letter-spacing:.04em;color:var(--ink-3);
+  border-bottom:.5pt solid var(--rule);padding-bottom:6pt;margin-bottom:10pt;
+}
+.runhead .accent{color:var(--accent)}
+
+/* ===== 标题与导读 ===== */
+.note-title{font-family:var(--font-head);font-size:16pt;font-weight:700;line-height:1.25;letter-spacing:-.01em}
+.note-lead{margin:6pt 0 0;color:var(--ink-2);font-size:10.5pt;line-height:1.5}
+.note-flag{margin:8pt 0 0;padding:6pt 10pt;background:var(--wash);border-left:3pt solid var(--accent);font-size:9.5pt;color:var(--ink-2)}
+
+/* ===== 章节标题：1 / 1.1 分级编号 ===== */
+.sec{margin-top:16pt;break-inside:auto}
+.sec-head{
+  display:flex;align-items:baseline;gap:8pt;
+  padding-bottom:4pt;border-bottom:1.5pt solid var(--accent);
+  break-after:avoid;page-break-after:avoid;
+}
+.sec-head .idx{font-family:var(--font-head);font-size:10pt;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+.sec-head .tt{font-family:var(--font-head);font-size:12pt;font-weight:700}
+.sec-head .cnt{margin-left:auto;font-family:var(--font-mono);font-size:8.5pt;color:var(--ink-3)}
+
+/* ===== 词条：悬挂缩进，续行缩进 2 字符 ===== */
+.entry{margin-top:8pt;padding-left:2.2em;break-inside:avoid;page-break-inside:avoid}
+.entry .l1{text-indent:-2.2em}
+.eno{font-family:var(--font-mono);font-size:9pt;color:var(--ink-3);margin-right:5pt;font-variant-numeric:tabular-nums}
+.entry .head{font-weight:700;font-size:11.5pt}
+.entry .pron{font-family:var(--font-mono);font-size:9pt;color:var(--ink-2);margin-left:6pt}
+.entry .pos{font-family:var(--font-head);font-size:9pt;color:var(--c-vocab);margin-left:5pt}
+.entry .def{background:var(--hl);padding:0 2pt}
+.entry .ex{margin-top:2pt;color:var(--ink-2)}
+.entry .ex .en{color:var(--ink)}
+.entry .ex b{font-weight:700}
+.entry .zh{font-family:var(--font-head);font-size:9.5pt}
+.entry .who{white-space:nowrap}
+.who{font-family:var(--font-mono);font-size:8.5pt;color:var(--ink-3);margin-left:5pt}
+.entry .ctx{margin-top:2pt;font-family:var(--font-head);font-size:9.5pt;color:var(--ink-2)}
+.entry .mn{margin-top:2pt;font-family:var(--font-head);font-size:9.5pt;color:var(--ink-2)}
+.entry .mn .lab{font-weight:700;color:var(--ink)}
+.tags{margin-top:4pt;display:flex;flex-wrap:wrap;gap:4pt}
+.tag{
+  font-family:var(--font-head);font-size:8.5pt;line-height:1.5;
+  border:.5pt solid var(--rule);border-radius:3px;padding:1pt 6pt;color:var(--ink-2);background:var(--wash);
+  white-space:nowrap;
+}
+.tag.t-phrase{color:var(--c-phrase)}
+.tag.t-grammar{color:var(--c-grammar)}
+
+/* ===== 口语语法点 ===== */
+.gram{margin-top:8pt;break-inside:avoid;page-break-inside:avoid}
+.gram .gt{font-family:var(--font-head);font-size:10.5pt;font-weight:700}
+.gram .gt .eno{font-weight:400}
+.pair{margin-top:4pt;display:flex;flex-direction:column;gap:3pt}
+.pair .line{display:flex;gap:7pt;align-items:baseline}
+.pair .lab{flex:none;width:3.6em;font-family:var(--font-head);font-size:8.5pt;color:var(--ink-3);text-align:right}
+.pair .bad .txt{text-decoration:line-through;text-decoration-thickness:.5pt;color:var(--ink-2)}
+.pair .bad .lab{color:var(--mark)}
+.pair .good .txt b{font-weight:700;border-bottom:1.5pt solid var(--accent)}
+.rule{margin-top:5pt;padding:5pt 9pt;background:var(--wash);border-left:3pt solid var(--accent);font-size:9.5pt;color:var(--ink-2);break-inside:avoid;page-break-inside:avoid}
+.rule .lab{font-family:var(--font-head);font-size:8.5pt;font-weight:700;letter-spacing:.06em;color:var(--accent);margin-right:5pt}
+
+/* ===== 文化背景注 ===== */
+.cul{margin-top:7pt;padding-left:2.2em;break-inside:avoid;page-break-inside:avoid}
+.cul .l1{text-indent:-2.2em}
+.cul .term{font-weight:700}
+.cul .note{margin-top:2pt;font-family:var(--font-head);font-size:9.5pt;color:var(--ink-2)}
+
+/* ===== 三线表：上下粗线、中间细线、无竖线 ===== */
+.t3{margin-top:8pt;font-size:9.5pt;break-inside:avoid;page-break-inside:avoid}
+.t3 caption{
+  text-align:left;font-family:var(--font-mono);font-size:8.5pt;letter-spacing:.05em;
+  color:var(--ink-3);padding-bottom:4pt;
+}
+.t3 thead th{
+  text-align:left;font-family:var(--font-head);font-size:9pt;font-weight:700;color:var(--ink);
+  border-top:1.5pt solid var(--rule-strong);border-bottom:.75pt solid var(--rule-strong);padding:4pt 6pt;
+}
+.t3 tbody td{padding:3pt 6pt;border:0;vertical-align:top}
+.t3 tbody tr+tr td{border-top:.5pt solid var(--rule)}
+.t3 tbody tr:last-child td{border-bottom:1.5pt solid var(--rule-strong)}
+.t3 .tname{font-weight:700;white-space:nowrap}
+.t3 .tform{font-family:var(--font-mono);font-size:9pt;color:var(--ink-2);white-space:nowrap}
+.t3 .blank{border-bottom:.5pt solid var(--rule)}
+
+/* ===== 自测清单 ===== */
+.cloze{margin:8pt 0 0;padding-left:2em;font-size:10pt}
+.cloze li{margin-bottom:4pt;break-inside:avoid;page-break-inside:avoid}
+.cloze .zh{font-family:var(--font-head);font-size:9.5pt;color:var(--ink-2);display:block}
+.cloze u{text-decoration:none;border-bottom:.75pt solid var(--ink);padding:0 1.6em;letter-spacing:.06em}
+.key{margin-top:6pt;font-family:var(--font-mono);font-size:8.5pt;color:var(--ink-3);line-height:1.6}
+.key .lab{font-family:var(--font-head);font-weight:700;color:var(--ink-2);margin-right:5pt}
+
+/* ===== 页脚 ===== */
+.footpage{
+  margin-top:16pt;padding-top:6pt;border-top:.5pt solid var(--rule);
+  display:flex;justify-content:space-between;gap:10pt;
+  font-family:var(--font-mono);font-size:8.5pt;color:var(--ink-3);
+}
+.footpage span+span{white-space:nowrap}
+
+/* ===== 打印 ===== */
+@page{size:A4;margin:25mm;@bottom-center{content:counter(page);font-family:serif;font-size:9pt;color:#8A857D}}
+@media print{
+  html,body{background:#FFF}
+  .toolbar{display:none}
+  .sheet{width:auto;margin:0;padding:0}
+  .runhead{position:running(runhead)}
+  a[href]::after{content:""}
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar" role="group" aria-label="配色主题">
+  <button type="button" data-theme="print" aria-pressed="true">灰度打印</button>
+  <button type="button" data-theme="color" aria-pressed="false">彩色标注</button>
+  <button type="button" id="printBtn">打印 / 存为 PDF</button>
+</div>
+
+<article class="sheet">
+  <div class="runhead"><span>__RUNHEAD_L__</span><span class="accent">__RUNHEAD_R__</span></div>
+__BODY__
+  <div class="footpage"><span>__FOOT_L__</span><span>__FOOT_R__</span></div>
+</article>
+
+<script>
+(function(){
+  var btns=[].slice.call(document.querySelectorAll('.toolbar button[data-theme]'));
+  function set(mode){
+    document.documentElement.setAttribute('data-theme',mode);
+    btns.forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-theme')===mode?'true':'false')});
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){set(b.getAttribute('data-theme'))})});
+  var p=document.getElementById('printBtn');
+  if(p)p.addEventListener('click',function(){set('print');window.print()});
+})();
+</script>
+</body>
+</html>

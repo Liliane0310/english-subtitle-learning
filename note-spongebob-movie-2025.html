@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="print">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The SpongeBob Movie: Search for SquarePants 2025·电影 预习笔记</title>
+<style>
+/* ===== 色彩 Token · 打印主题（灰度安全，全部实色，无渐变/投影/半透明） ===== */
+:root{
+  --paper:#FBFAF7;      /* 页面底色，暖白 */
+  --sheet:#FFFFFF;      /* 纸面 */
+  --ink:#1A1A1A;        /* 正文、词头 */
+  --ink-2:#4A4A4A;      /* 释义、翻译、辅助 */
+  --ink-3:#8A857D;      /* 元信息、答案 */
+  --rule:#D8D4CE;       /* 细线、三线表内线 */
+  --rule-strong:#1A1A1A;/* 三线表上下粗线 */
+  --wash:#F3F2EF;       /* 规则框底，实色 */
+  --accent:#2F4E6E;     /* 唯一强调色：编号、规则框左边线 */
+  --mark:#A6392E;       /* 仅用于 ✗ */
+  --hl:#EFE3C8;         /* 高亮底，实色平涂 */
+
+  /* 分类色在打印主题下一律塌缩为墨色，层级交给字重、字号与细线 */
+  --c-vocab:var(--ink); --c-phrase:var(--ink); --c-grammar:var(--ink); --c-review:var(--ink-2);
+
+  --font-body:"Times New Roman","Songti SC",SimSun,"Noto Serif SC",serif;
+  --font-head:"Times New Roman","Heiti SC",SimHei,"Microsoft YaHei","Noto Sans SC",sans-serif;
+  --font-mono:Consolas,"Courier New","Songti SC",monospace;
+}
+/* 屏幕阅读可选的语义色主题；打印时不生效 */
+html[data-theme="color"]{
+  --c-vocab:#E58522; --c-phrase:#00AA90; --c-grammar:#58B2DC; --c-review:#B481BB;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--font-body);font-size:10.5pt;line-height:1.5;
+  font-synthesis:none;-webkit-font-smoothing:antialiased;line-break:strict;overflow-wrap:break-word;
+}
+p{margin:0 0 1.2em}          /* 段间距 12.6pt > 行距 15.75pt 的观感靠段首行对齐保证 */
+h1,h2{margin:0;text-wrap:balance}
+table{border-collapse:collapse;width:100%}
+.num,.tnum{font-variant-numeric:tabular-nums}
+
+/* ===== 版面：A4 · 四边 25mm（屏幕上以纸张卡片呈现，四边内衬 25mm） ===== */
+.toolbar{max-width:210mm;margin:18px auto 0;display:flex;justify-content:flex-end;gap:8px}
+.toolbar button{
+  font-family:var(--font-head);font-size:9pt;color:var(--ink-2);background:var(--sheet);
+  border:1px solid var(--rule);border-radius:4px;padding:5px 12px;cursor:pointer;
+}
+.toolbar button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.sheet{width:210mm;max-width:calc(100% - 24px);margin:18px auto 40px;background:var(--sheet);padding:25mm 25mm 20mm}
+
+/* ===== 页眉跑马行 ===== */
+.runhead{
+  display:flex;justify-content:space-between;gap:12px;
+  font-family:var(--font-head);font-size:8.5pt;letter-spacing:.04em;color:var(--ink-3);
+  border-bottom:.5pt solid var(--rule);padding-bottom:6pt;margin-bottom:10pt;
+}
+.runhead .accent{color:var(--accent)}
+
+/* ===== 标题与导读 ===== */
+.note-title{font-family:var(--font-head);font-size:16pt;font-weight:700;line-height:1.25;letter-spacing:-.01em}
+.note-lead{margin:6pt 0 0;color:var(--ink-2);font-size:10.5pt;line-height:1.5}
+.note-flag{margin:8pt 0 0;padding:6pt 10pt;background:var(--wash);border-left:3pt solid var(--accent);font-size:9.5pt;color:var(--ink-2)}
+
+/* ===== 章节标题：1 / 1.1 分级编号 ===== */
+.sec{margin-top:16pt;break-inside:auto}
+.sec-head{
+  display:flex;align-items:baseline;gap:8pt;
+  padding-bottom:4pt;border-bottom:1.5pt solid var(--accent);
+  break-after:avoid;page-break-after:avoid;
+}
+.sec-head .idx{font-family:var(--font-head);font-size:10pt;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+.sec-head .tt{font-family:var(--font-head);font-size:12pt;font-weight:700}
+.sec-head .cnt{margin-left:auto;font-family:var(--font-mono);font-size:8.5pt;color:var(--ink-3)}
+
+/* ===== 词条：悬挂缩进，续行缩进 2 字符 ===== */
+.entry{margin-top:8pt;padding-left:2.2em;break-inside:avoid;page-break-inside:avoid}
+.entry .l1{text-indent:-2.2em}
+.eno{font-family:var(--font-mono);font-size:9pt;color:var(--ink-3);margin-right:5pt;font-variant-numeric:tabular-nums}
+.entry .head{font-weight:700;font-size:11.5pt}
+.entry .pron{font-family:var(--font-mono);font-size:9pt;color:var(--ink-2);margin-left:6pt}
+.entry .pos{font-family:var(--font-head);font-size:9pt;color:var(--c-vocab);margin-left:5pt}
+.entry .def{background:var(--hl);padding:0 2pt}
+.entry .ex{margin-top:2pt;color:var(--ink-2)}
+.entry .ex .en{color:var(--ink)}
+.entry .ex b{font-weight:700}
+.entry .zh{font-family:var(--font-head);font-size:9.5pt}
+.entry .who{white-space:nowrap}
+.who{font-family:var(--font-mono);font-size:8.5pt;color:var(--ink-3);margin-left:5pt}
+.entry .ctx{margin-top:2pt;font-family:var(--font-head);font-size:9.5pt;color:var(--ink-2)}
+.entry .mn{margin-top:2pt;font-family:var(--font-head);font-size:9.5pt;color:var(--ink-2)}
+.entry .mn .lab{font-weight:700;color:var(--ink)}
+.tags{margin-top:4pt;display:flex;flex-wrap:wrap;gap:4pt}
+.tag{
+  font-family:var(--font-head);font-size:8.5pt;line-height:1.5;
+  border:.5pt solid var(--rule);border-radius:3px;padding:1pt 6pt;color:var(--ink-2);background:var(--wash);
+  white-space:nowrap;
+}
+.tag.t-phrase{color:var(--c-phrase)}
+.tag.t-grammar{color:var(--c-grammar)}
+
+/* ===== 口语语法点 ===== */
+.gram{margin-top:8pt;break-inside:avoid;page-break-inside:avoid}
+.gram .gt{font-family:var(--font-head);font-size:10.5pt;font-weight:700}
+.gram .gt .eno{font-weight:400}
+.pair{margin-top:4pt;display:flex;flex-direction:column;gap:3pt}
+.pair .line{display:flex;gap:7pt;align-items:baseline}
+.pair .lab{flex:none;width:3.6em;font-family:var(--font-head);font-size:8.5pt;color:var(--ink-3);text-align:right}
+.pair .bad .txt{text-decoration:line-through;text-decoration-thickness:.5pt;color:var(--ink-2)}
+.pair .bad .lab{color:var(--mark)}
+.pair .good .txt b{font-weight:700;border-bottom:1.5pt solid var(--accent)}
+.rule{margin-top:5pt;padding:5pt 9pt;background:var(--wash);border-left:3pt solid var(--accent);font-size:9.5pt;color:var(--ink-2);break-inside:avoid;page-break-inside:avoid}
+.rule .lab{font-family:var(--font-head);font-size:8.5pt;font-weight:700;letter-spacing:.06em;color:var(--accent);margin-right:5pt}
+
+/* ===== 文化背景注 ===== */
+.cul{margin-top:7pt;padding-left:2.2em;break-inside:avoid;page-break-inside:avoid}
+.cul .l1{text-indent:-2.2em}
+.cul .term{font-weight:700}
+.cul .note{margin-top:2pt;font-family:var(--font-head);font-size:9.5pt;color:var(--ink-2)}
+
+/* ===== 三线表：上下粗线、中间细线、无竖线 ===== */
+.t3{margin-top:8pt;font-size:9.5pt;break-inside:avoid;page-break-inside:avoid}
+.t3 caption{
+  text-align:left;font-family:var(--font-mono);font-size:8.5pt;letter-spacing:.05em;
+  color:var(--ink-3);padding-bottom:4pt;
+}
+.t3 thead th{
+  text-align:left;font-family:var(--font-head);font-size:9pt;font-weight:700;color:var(--ink);
+  border-top:1.5pt solid var(--rule-strong);border-bottom:.75pt solid var(--rule-strong);padding:4pt 6pt;
+}
+.t3 tbody td{padding:3pt 6pt;border:0;vertical-align:top}
+.t3 tbody tr+tr td{border-top:.5pt solid var(--rule)}
+.t3 tbody tr:last-child td{border-bottom:1.5pt solid var(--rule-strong)}
+.t3 .tname{font-weight:700;white-space:nowrap}
+.t3 .tform{font-family:var(--font-mono);font-size:9pt;color:var(--ink-2);white-space:nowrap}
+.t3 .blank{border-bottom:.5pt solid var(--rule)}
+
+/* ===== 自测清单 ===== */
+.cloze{margin:8pt 0 0;padding-left:2em;font-size:10pt}
+.cloze li{margin-bottom:4pt;break-inside:avoid;page-break-inside:avoid}
+.cloze .zh{font-family:var(--font-head);font-size:9.5pt;color:var(--ink-2);display:block}
+.cloze u{text-decoration:none;border-bottom:.75pt solid var(--ink);padding:0 1.6em;letter-spacing:.06em}
+.key{margin-top:6pt;font-family:var(--font-mono);font-size:8.5pt;color:var(--ink-3);line-height:1.6}
+.key .lab{font-family:var(--font-head);font-weight:700;color:var(--ink-2);margin-right:5pt}
+
+/* ===== 页脚 ===== */
+.footpage{
+  margin-top:16pt;padding-top:6pt;border-top:.5pt solid var(--rule);
+  display:flex;justify-content:space-between;gap:10pt;
+  font-family:var(--font-mono);font-size:8.5pt;color:var(--ink-3);
+}
+.footpage span+span{white-space:nowrap}
+
+/* ===== 打印 ===== */
+@page{size:A4;margin:25mm;@bottom-center{content:counter(page);font-family:serif;font-size:9pt;color:#8A857D}}
+@media print{
+  html,body{background:#FFF}
+  .toolbar{display:none}
+  .sheet{width:auto;margin:0;padding:0}
+  .runhead{position:running(runhead)}
+  a[href]::after{content:""}
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar" role="group" aria-label="配色主题">
+  <button type="button" data-theme="print" aria-pressed="true">灰度打印</button>
+  <button type="button" data-theme="color" aria-pressed="false">彩色标注</button>
+  <button type="button" id="printBtn">打印 / 存为 PDF</button>
+</div>
+
+<article class="sheet">
+  <div class="runhead"><span>The SpongeBob Movie: Search for SquarePants · 2025·电影</span><span class="accent">字幕来源：用户提供 eng.srt（BYNDR WEB-DL 版），与用户提供的 chs 中文字幕同版本逐句对应</span></div>
+<h1 class="note-title">The SpongeBob Movie: Search for SquarePants 2025·电影 预习笔记</h1><p class="note-lead">海绵宝宝一觉长高了半个贝壳，立志考取『剑客证书』证明自己是『大人物』，却被飞行荷兰人拐进海底世界闯关。本集词汇围绕海盗腔、蟹老板的品质清单和一纸证书展开。</p><section class="sec"><div class="sec-head"><span class="idx">1</span><span class="tt">本集词汇地图</span><span class="cnt">24 条</span></div><p>收录 <span class="tnum">24</span> 条表达：重点词汇 <span class="tnum">12</span> 条、短语与习语 <span class="tnum">12</span> 条；口语语法点 <span class="tnum">3</span> 个、文化背景注 <span class="tnum">5</span> 条。目标水平：高中（词汇量约 3500）。</p><table class="t3"><caption>表 1 · 难度分布</caption><thead><tr><th style="width:26%">类别</th><th style="width:14%">词数</th><th>本集示例</th></tr></thead><tbody><tr><td class="tname">超纲实词</td><td class="tnum">9</td><td>swashbuckler、fortitude、panache</td></tr><tr><td class="tname">短语搭配</td><td class="tnum">9</td><td>pick up where we left off、there&#x27;s no telling、fall for</td></tr><tr><td class="tname">俚语口语</td><td class="tnum">4</td><td>moxie、read the room、in deep shrimp</td></tr><tr><td class="tname">派生词</td><td class="tnum">2</td><td>fortify、demote</td></tr></tbody></table></section><section class="sec"><div class="sec-head"><span class="idx">2</span><span class="tt">重点词汇</span><span class="cnt">12 条</span></div><div class="entry"><div class="l1"><span class="eno">01</span><span class="head">swashbuckler</span><span class="pron">/ˈswɑːʃbʌklər/</span><span class="pos">n.</span> <span class="def">剑客；飞侠式冒险家（耍剑斗恶、又帅又勇的那类人）</span></div><div class="ex"><span class="en">Oh, who am I kidding? I&#x27;ll never be a <b>swashbuckler</b>.</span><span class="who">— SpongeBob · 00:17:32</span></div><div class="zh">唉，我骗谁呢？我永远成不了剑客。</div><div class="ctx">在蟹老板的密室里泄气自嘲。这个词是全片题眼，连同 swashbuckling 共出现约 47 次。</div><div class="mn"><span class="lab">记忆点</span>swash（哗啦水声、挥剑声）+ buckler（小圆盾）：盾牌挥得哗哗响的人＝又帅又能打的冒险家。</div><div class="tags"><span class="tag t-phrase">swashbuckling adventure 剑客式冒险</span><span class="tag t-phrase">a real swashbuckler 真正的剑客</span><span class="tag">本集出现 47 次</span></div></div><div class="entry"><div class="l1"><span class="eno">02</span><span class="head">fortitude</span><span class="pron">/ˈfɔːrtətuːd/</span><span class="pos">n.</span> <span class="def">坚韧；咬牙扛住困难的毅力</span></div><div class="ex"><span class="en">Guts, grit, moxie, and intestinal <b>fortitude</b>.</span><span class="who">— Mr. Krabs · 00:13:17</span></div><div class="zh">胆量、韧劲、闯劲，还有『肠子的坚韧』。</div><div class="ctx">蟹老板一口气报出证书要求的品质清单；intestinal fortitude（字面『肠子的坚韧』）是『真胆量』的诙谐婉转说法。</div><div class="mn"><span class="lab">记忆点</span>fort（堡垒）+ itude（名词后缀）：心里筑了堡垒＝扛得住。</div><div class="tags"><span class="tag t-phrase">intestinal fortitude 「肠子的坚韧」，真胆量的诙谐说法</span><span class="tag">本集出现 6 次</span></div></div><div class="entry"><div class="l1"><span class="eno">03</span><span class="head">panache</span><span class="pron">/pəˈnæʃ/</span><span class="pos">n.</span> <span class="def">潇洒劲儿；神气活现的派头</span></div><div class="ex"><span class="en"><b>Panache</b>. Moxie. Intestinal fortitude.</span><span class="who">— SpongeBob · 00:14:28</span></div><div class="zh">潇洒、闯劲，还有『肠子的坚韧』。</div><div class="ctx">海绵宝宝照着证书清单一个个词啃，像在背生词表。</div><div class="mn"><span class="lab">记忆点</span>原义是帽上的羽饰：骑士帽一插羽毛，风一吹多神气。</div><div class="tags"><span class="tag">本集出现 4 次</span></div></div><div class="entry"><div class="l1"><span class="eno">04</span><span class="head">moxie</span><span class="pron">/ˈmɑːksi/</span><span class="pos">n.</span> <span class="def">胆识；天不怕地不怕的闯劲</span></div><div class="ex"><span class="en">They got more panache, guts, grit, <b>moxie</b> and intestinal fortitude than any swashbuckler I ever met.</span><span class="who">— Mr. Krabs · 01:13:45</span></div><div class="zh">他们比任何我见过的剑客都更有派头、胆量、韧劲、闯劲和『肠子的坚韧』。</div><div class="ctx">蟹老板改口承认：吹泡泡的娃娃比任何剑客都有种。</div><div class="mn"><span class="lab">记忆点</span>来自老牌汽水 Moxie 的广告语『get some moxie』＝够带劲。</div><div class="tags"><span class="tag">本集出现 4 次</span></div></div><div class="entry"><div class="l1"><span class="eno">05</span><span class="head">doomed</span><span class="pron">/duːmd/</span><span class="pos">adj.</span> <span class="def">注定（要倒霉、失败）的</span></div><div class="ex"><span class="en">Henceforth, the Flying Dutchman is <b>doomed</b> to wander the seas in search of this magical soul.</span><span class="who">— 旁白 · 00:02:02</span></div><div class="zh">从此，飞行荷兰人注定要在海上漂泊，寻找那个神奇的灵魂。</div><div class="ctx">片头旁白交代荷兰人受的诅咒；后面蟹老板也喊过 our favorite fry cook is doomed!</div><div class="mn"><span class="lab">记忆点</span>doom（末日、厄运）+ ed：被厄运钉死了。</div><div class="tags"><span class="tag t-phrase">be doomed to do 注定会…</span><span class="tag">本集出现 3 次</span></div></div><div class="entry"><div class="l1"><span class="eno">06</span><span class="head">fortify</span><span class="pron">/ˈfɔːrtɪfaɪ/</span><span class="pos">v.</span> <span class="def">加固；增强（防御、体质）</span></div><div class="ex"><span class="en">Patrick, I think these are the guys who are gonna <b>fortify</b> our intestines!</span><span class="who">— SpongeBob · 00:37:39</span></div><div class="zh">派大星，我觉得这些家伙就是来加固我们肠子的！</div><div class="ctx">两人把『肠道坚韧』挑战理解成字面意思，以为骷髅兵要来『加固』肠子——全片最冷的一个笑点。</div><div class="mn"><span class="lab">记忆点</span>fort（堡垒）+ ify（使…化）：垒成堡垒。</div><div class="tags"><span class="tag t-phrase">fortified food 强化（营养）食品</span><span class="tag t-grammar">fortress n. 堡垒</span><span class="tag t-grammar">fortification n. 防御工事</span><span class="tag">本集出现 2 次</span></div></div><div class="entry"><div class="l1"><span class="eno">07</span><span class="head">embellished</span><span class="pron">/ɪmˈbelɪʃt/</span><span class="pos">v.（过去式）</span> <span class="def">添油加醋；把故事讲得更夸张好听</span></div><div class="ex"><span class="en">I <b>embellished</b> a few o&#x27; the finer details.</span><span class="who">— Mr. Krabs · 00:59:55</span></div><div class="zh">有几个细节嘛……我加了点戏。</div><div class="ctx">蟹老板坦白当年吹牛：『几个细节我添了油加了醋』；o&#x27; 是 of 的缩读。</div><div class="mn"><span class="lab">记忆点</span>em-（进入）+ bell（拉丁 bellus 美）+ ish：往里塞『美化』。</div><div class="tags"><span class="tag t-phrase">embellish a story 给故事添油加醋</span></div></div><div class="entry"><div class="l1"><span class="eno">08</span><span class="head">lure</span><span class="pron">/lʊr/</span><span class="pos">v.</span> <span class="def">诱骗；引诱（进危险或圈套）</span></div><div class="ex"><span class="en">The dirty deceiver promised to make me a swashbuckler, and <b>lured</b> me to the Underworld.</span><span class="who">— Mr. Krabs · 01:00:47</span></div><div class="zh">那个卑鄙的骗子许诺让我当上剑客，把我诱骗到了阴曹地府。</div><div class="ctx">揭穿往事：当年被荷兰人的许诺骗进了海底世界。</div><div class="mn"><span class="lab">记忆点</span>谐音『漏』：被诱骗就像踩进漏斗，一路滑到底。</div><div class="tags"><span class="tag t-phrase">lure sb into/to sth 把某人诱骗进…</span></div></div><div class="entry"><div class="l1"><span class="eno">09</span><span class="head">prowess</span><span class="pron">/ˈpraʊəs/</span><span class="pos">n.</span> <span class="def">高超的本领（尤指体格、武艺上的）</span></div><div class="ex"><span class="en">True, he don&#x27;t have physical <b>prowess</b> or pirating ability,</span><span class="who">— Flying Dutchman · 00:29:45</span></div><div class="zh">没错，他既没有体魄本领，也不会当海盗，……</div><div class="ctx">荷兰人和同伙背地里点评：海绵宝宝没本事，胜在『傻得惊人』。</div><div class="mn"><span class="lab">记忆点</span>词根同 proud 的古法语 prou（英勇）：英勇加身＝真本领。</div><div class="tags"><span class="tag t-phrase">physical prowess 体魄武艺</span></div></div><div class="entry"><div class="l1"><span class="eno">10</span><span class="head">mettle</span><span class="pron">/ˈmetl/</span><span class="pos">n.</span> <span class="def">实力；（压力下的）血性</span></div><div class="ex"><span class="en">You look like the kind of strappin&#x27; young bubble-blowin&#x27; fella who wants, nay, needs a chance to prove his <b>mettle</b>.</span><span class="who">— Flying Dutchman · 00:20:38</span></div><div class="zh">你这小伙子高大精神、吹得一手好泡泡，想——不，是需要一个证明自己实力的机会。</div><div class="ctx">荷兰人初次打量海绵宝宝，满嘴漂亮话勾他上钩；nay 是『不，甚至』的古旧说法。</div><div class="mn"><span class="lab">记忆点</span>与 metal 同音：真金才经火炼，是骡子是马拉出来遛遛。</div><div class="tags"><span class="tag t-phrase">prove one&#x27;s mettle 证明自己的实力</span></div></div><div class="entry"><div class="l1"><span class="eno">11</span><span class="head">diminutive</span><span class="pron">/dɪˈmɪnjətɪv/</span><span class="pos">adj.</span> <span class="def">极小的；小不点似的</span></div><div class="ex"><span class="en">You can&#x27;t be SpongeBob. He&#x27;s far more <b>diminutive</b>.</span><span class="who">— Patrick · 00:05:55</span></div><div class="zh">你不可能是海绵宝宝。他可比你小多了。</div><div class="ctx">派大星没认出长高的海绵宝宝，接下来连换三个大词：of reduced stature → vertically challenged，越描越黑是笑点本体。</div><div class="mn"><span class="lab">记忆点</span>di-（加强）+ minut（小，同 minute『细小』）+ ive：小到极致。</div><div class="tags"><span class="tag t-phrase">stature n. 身材、个头</span><span class="tag t-phrase">vertically challenged 『垂直受挑战』＝个子矮的调侃说法</span></div></div><div class="entry"><div class="l1"><span class="eno">12</span><span class="head">demote</span><span class="pron">/dɪˈmoʊt/</span><span class="pos">v.</span> <span class="def">降职；把某人降级</span></div><div class="ex"><span class="en">I&#x27;ll <b>demote</b> you to fry cook. Permanently!</span><span class="who">— Mr. Krabs · 00:24:49</span></div><div class="zh">我就把你降职去炸汉堡。永久的！</div><div class="ctx">逼章鱼哥加入救援队时放的狠话。</div><div class="mn"><span class="lab">记忆点</span>de-（往下）+ mote（动）：往下一级挪。</div><div class="tags"><span class="tag t-phrase">demote sb to sth 把某人降为…</span><span class="tag t-grammar">promote v. 提拔（反义）</span></div></div></section><section class="sec"><div class="sec-head"><span class="idx">3</span><span class="tt">短语与习语</span><span class="cnt">12 条</span></div><div class="entry"><div class="l1"><span class="eno">13</span><span class="head">pick up where we left off</span><span class="pron">/pɪk ʌp wer wi left ɔːf/</span><span class="pos">phr.</span> <span class="def">从上次中断的地方接着来</span></div><div class="ex"><span class="en">What say we <b>pick up where we left off</b>?</span><span class="who">— Flying Dutchman · 01:17:53</span></div><div class="zh">不如我们从上次没完的地方接着来？</div><div class="ctx">尾声里荷兰人想拉旧同伙重操旧业；what say we＝『要不要我们…』的古雅口吻。</div><div class="tags"><span class="tag">本集出现 2 次</span></div></div><div class="entry"><div class="l1"><span class="eno">14</span><span class="head">there&#x27;s no telling</span><span class="pron">/ðerz noʊ ˈtelɪŋ/</span><span class="pos">phr.</span> <span class="def">谁也说不准；无从预料</span></div><div class="ex"><span class="en">There&#x27;s no <b>tellin&#x27;</b> what trouble that cutthroat pirate will cause.</span><span class="who">— Mr. Krabs · 01:09:43</span></div><div class="zh">谁也说不准那个亡命海盗会惹出什么乱子。</div><div class="ctx">荷兰人逃到了海面世界，众人在岸上干着急。tellin&#x27; 是 telling 的缩略拼写；前面还出现过 no telling what&#x27;s lurking。</div><div class="tags"><span class="tag t-phrase">cutthroat pirate 亡命海盗</span><span class="tag">本集出现 2 次</span></div></div><div class="entry"><div class="l1"><span class="eno">15</span><span class="head">fall for</span><span class="pron">/fɔːl fɔːr/</span><span class="pos">phr. v.</span> <span class="def">上当；信以为真</span></div><div class="ex"><span class="en">It&#x27;s all been a big lie, and you <b>fell</b> <b>for</b> it.</span><span class="who">— Flying Dutchman · 01:04:01</span></div><div class="zh">这一切都是天大的谎话，而你上当了。</div><div class="ctx">揭底：一路的『剑客特训』全是骗局。</div><div class="tags"><span class="tag t-phrase">fall for a trick 中了圈套</span><span class="tag t-phrase">fall for sb 迷上某人（另一义）</span></div></div><div class="entry"><div class="l1"><span class="eno">16</span><span class="head">in a pickle</span><span class="pron">/ɪn ə ˈpɪkl/</span><span class="pos">phr.</span> <span class="def">陷入困境；左右为难</span></div><div class="ex"><span class="en">If ya want to get out of this <b>pickle</b>, you&#x27;re gonna have to start actin&#x27; like a rough-and-tumble swashbuckler.</span><span class="who">— Mr. Krabs（幻象） · 00:38:42</span></div><div class="zh">你要想摆脱眼前的困境，就得拿出剑客那股又野又硬的劲儿来。</div><div class="ctx">挑战失败后的幻象里，海绵宝宝用蟹老板的口吻给自己指路。</div><div class="mn"><span class="lab">记忆点</span>pickle 泡菜——泡在卤水里＝泡在麻烦里。</div></div><div class="entry"><div class="l1"><span class="eno">17</span><span class="head">the faint of heart</span><span class="pron">/ðə feɪnt əv hɑːrt/</span><span class="pos">phr.</span> <span class="def">胆小的人；心里发虚的那类人</span></div><div class="ex"><span class="en">A trip to the Underworld is not for <b>the faint of heart</b>.</span><span class="who">— Flying Dutchman · 00:23:48</span></div><div class="zh">去阴曹地府走一遭，可不是给胆小鬼准备的。</div><div class="ctx">出发去海底世界前的『劝退』广告词。</div><div class="mn"><span class="lab">记忆点</span>the + adj + of + N 指一类人：the faint of heart＝心脏不够大的那类。</div></div><div class="entry"><div class="l1"><span class="eno">18</span><span class="head">make it up to</span><span class="pron">/meɪk ɪt ʌp tuː/</span><span class="pos">phr.</span> <span class="def">补偿（某人）；将功补过</span></div><div class="ex"><span class="en">You can <b>make it up to</b> him once you&#x27;re a swashbuckler.</span><span class="who">— Flying Dutchman · 00:52:47</span></div><div class="zh">等你当上剑客，再补偿他也不迟。</div><div class="ctx">海绵宝宝推掉了和派大星的泡泡之约，荷兰人劝他以后再补。</div><div class="tags"><span class="tag t-phrase">make it up to sb 补偿某人</span></div></div><div class="entry"><div class="l1"><span class="eno">19</span><span class="head">no hard feelings</span><span class="pron">/noʊ hɑːrd ˈfiːlɪŋz/</span><span class="pos">phr.</span> <span class="def">别往心里去；没有恶意</span></div><div class="ex"><span class="en">Uh, <b>no</b> <b>hard</b> feelin&#x27;s about leavin&#x27; ya behind.</span><span class="who">— Flying Dutchman · 01:17:47</span></div><div class="zh">呃，把你落在后面这事儿，你可别往心里去。</div><div class="ctx">刚把同伴丢下就走，还回头补一句『别介意啊』——越轻描淡写越好笑。feelin&#x27;s 是 feelings 的缩略拼写。</div></div><div class="entry"><div class="l1"><span class="eno">20</span><span class="head">tail between one&#x27;s legs</span><span class="pron">/teɪl bɪˈtwiːn wʌnz leɡz/</span><span class="pos">phr.</span> <span class="def">夹着尾巴（灰溜溜地逃）</span></div><div class="ex"><span class="en">The Underworld shivered me timbers and I ran home, <b>tail</b> between me <b>legs</b>.</span><span class="who">— Mr. Krabs · 01:00:55</span></div><div class="zh">阴曹地府震得我魂飞魄散，我夹着尾巴跑回了家。</div><div class="ctx">蟹老板承认当年吓跑的狼狈相；me legs 是海盗腔的 my legs。</div><div class="mn"><span class="lab">记忆点</span>狗被打败时尾巴夹进后腿间——人败退时一样。</div></div><div class="entry"><div class="l1"><span class="eno">21</span><span class="head">keep your eyes on the prize</span><span class="pron">/kiːp jʊr aɪz ɑːn ðə praɪz/</span><span class="pos">phr.</span> <span class="def">盯住目标；别分心</span></div><div class="ex"><span class="en">Just <b>keep your eyes on the prize</b>.</span><span class="who">— Flying Dutchman · 00:52:54</span></div><div class="zh">眼睛盯着目标就行。</div><div class="ctx">教练话术标配；prize 不一定是奖品，指你最终想要的东西。</div></div><div class="entry"><div class="l1"><span class="eno">22</span><span class="head">read the room</span><span class="pron">/riːd ðə ruːm/</span><span class="pos">phr.</span> <span class="def">看看气氛再说话；识相点</span></div><div class="ex"><span class="en">Come on, Barb... <b>read the room</b>.</span><span class="who">— Flying Dutchman · 00:32:56</span></div><div class="zh">拜托，巴布……看看现在什么场合。</div><div class="ctx">同伙巴布把『破解诅咒』说漏嘴，荷兰人赶紧提醒她看场合。</div><div class="mn"><span class="lab">记忆点</span>把房间读一遍＝扫一眼全场脸色。</div></div><div class="entry"><div class="l1"><span class="eno">23</span><span class="head">in deep shrimp</span><span class="pron">/ɪn diːp ʃrɪmp/</span><span class="pos">phr.</span> <span class="def">麻烦大了（in deep shit 的净化版）</span></div><div class="ex"><span class="en">I&#x27;m <b>in deep shrimp</b>.</span><span class="who">— Mr. Krabs · 00:41:45</span></div><div class="zh">我这下麻烦大了。</div><div class="ctx">原型是脏话 in deep shit；这部片里所有脏话都换成海鲜词：tartar sauce（约等于『见鬼』）、fish sticks 同理。</div></div><div class="entry"><div class="l1"><span class="eno">24</span><span class="head">kick butt</span><span class="pron">/kɪk bʌt/</span><span class="pos">phr.</span> <span class="def">大干一场；把对手打趴下（butt＝ass 的净化说法）</span></div><div class="ex"><span class="en">I came here to do two things, <b>kick butt</b> and blow bubbles.</span><span class="who">— SpongeBob · 01:15:15</span></div><div class="zh">我来这儿就办两件事：大干一场，和吹泡泡。</div><div class="ctx">化用《极度空间》名句『来这儿就干两件事』，后半句 Looks like I&#x27;m all out of butt（『butt』用完了）是现挂包袱。</div></div></section><section class="sec"><div class="sec-head"><span class="idx">4</span><span class="tt">口语语法点</span><span class="cnt">3 个</span></div><div class="gram"><div class="gt"><span class="eno">01</span>ain&#x27;t 与口语里的双重否定</div><div class="ex"><span class="en">Being scared of roller coasters ain&#x27;t nothing to be ashamed of.</span><span class="who">— Mr. Krabs · 00:10:51</span></div><div class="zh">害怕过山车，没什么好丢人的。</div><div class="pair"><div class="line bad"><span class="lab">✗</span><span class="txt">Being scared isn&#x27;t nothing to be ashamed of.</span></div><div class="line good"><span class="lab">✓</span><span class="txt">Being scared is nothing to be ashamed of.</span></div></div><div class="rule"><span class="lab">规则</span>ain&#x27;t 是 am/is/are not 的口语合体（全片出现 7 次）。标准语法里 isn&#x27;t 和 nothing 只能取一个否定，不能叠用；但口语里 ain&#x27;t nothing 这种双重否定仍然是否定，语气反而更冲——听懂即可，书面别这样写。</div></div><div class="gram"><div class="gt"><span class="eno">02</span>强调助动词 do/does</div><div class="ex"><span class="en">You&#x27;re right, Gary. It <b>does</b> feel like something&#x27;s missing.</span><span class="who">— SpongeBob · 01:20:06</span></div><div class="zh">你说得对，小蜗。确实感觉少了点什么。</div><div class="pair"><div class="line bad"><span class="lab">✗</span><span class="txt">It feels like something&#x27;s missing.</span></div><div class="line good"><span class="lab">✓</span><span class="txt">It <b>does</b> feel like something&#x27;s missing.</span></div></div><div class="rule"><span class="lab">规则</span>肯定句里加 do/does/did 不改变意思，只加『确实、真的』的强调，常用来回应质疑或自我确认。</div></div><div class="gram"><div class="gt"><span class="eno">03</span>would 的假想语气：换作是你会怎么办</div><div class="ex"><span class="en">It&#x27;s, &#x27;What <b>would</b> I do?&#x27;</span><span class="who">— Mr. Krabs · 00:38:58</span></div><div class="zh">关键要问：『换作是我，我会怎么办？』</div><div class="pair"><div class="line bad"><span class="lab">✗</span><span class="txt">What will you do?</span></div><div class="line good"><span class="lab">✓</span><span class="txt">What <b>would</b> you do?</span></div></div><div class="rule"><span class="lab">规则</span>will 问的是真实将来，would 问的是假设情境。片中口诀 What would you do? 反复出现，意思就是『先别慌，想想换成自己会怎么干』。</div></div></section><section class="sec"><div class="sec-head"><span class="idx">5</span><span class="tt">文化背景注</span><span class="cnt">5 条</span></div><div class="cul"><div class="l1"><span class="eno">01</span><span class="term">the Flying Dutchman</span></div><div class="ex"><span class="en">And thusly, he became known as the dreaded Flying Dutchman.</span><span class="who">— 旁白 · 00:01:48</span></div><div class="note">十七八世纪航海传说里的幽灵船船长，作恶多端被罚永远漂流、不得靠岸，《加勒比海盗》用的同款典故。片头旁白交代：唯有『纯洁无瑕的心灵』能解他的诅咒——这就是他盯上海绵宝宝的缘由。</div></div><div class="cul"><div class="l1"><span class="eno">02</span><span class="term">Davy Jones&#x27; locker</span></div><div class="ex"><span class="en">Davy Jones&#x27; locker. The entrance to the Underworld.</span><span class="who">— 00:32:04</span></div><div class="note">水手黑话，『戴维·琼斯的柜子』指海底最深处，是溺水水手的长眠之地。前面有人问『你是 Davy 吗？』、对方答『不，我是 Phil』，就是拿传说人物当普通人名开涮。</div></div><div class="cul"><div class="l1"><span class="eno">03</span><span class="term">shiver me timbers</span></div><div class="ex"><span class="en">The Underworld shivered me timbers and I ran home, tail between me legs.</span><span class="who">— Mr. Krabs · 01:00:55</span></div><div class="note">海盗片标配惊叹语，直译『震松了我的船肋』（timbers＝造船木料），约等于『我的妈呀』。蟹老板用这口海盗腔承认当年被吓跑的黑历史。</div></div><div class="cul"><div class="l1"><span class="eno">04</span><span class="term">hornpipe</span></div><div class="ex"><span class="en">And that&#x27;s when the Dutchman&#x27;s hornpipe appeared.</span><span class="who">— Mr. Krabs · 00:12:11</span></div><div class="note">hornpipe 原是水手独跳的木鞋舞及其伴奏舞曲；电影把它设定成召唤荷兰人的魔法号角，『吹响号角』是贯穿全片的关键道具。</div></div><div class="cul"><div class="l1"><span class="eno">05</span><span class="term">You had me at &#x27;bubble&#x27;</span></div><div class="ex"><span class="en">You had me at &#x27;bubble&#x27;.</span><span class="who">— SpongeBob · 00:51:51</span></div><div class="note">化用《甜心先生》(Jerry Maguire) 名台词 You had me at hello——『你说到「你好」我就答应了』，表示对方一开口自己就被说服。海绵宝宝版：你说到『泡泡』俩字，我就来了。</div></div></section><section class="sec"><div class="sec-head"><span class="idx">6</span><span class="tt">自测清单</span><span class="cnt">回想 + 挖空</span></div><table class="t3"><caption>表 2 · 遮住右栏，回想中文释义</caption><thead><tr><th style="width:32%">词头</th><th style="width:24%">音标</th><th>释义</th></tr></thead><tbody><tr><td class="tname">swashbuckler</td><td class="tform">/ˈswɑːʃbʌklər/</td><td class="blank">&#160;</td></tr><tr><td class="tname">fortitude</td><td class="tform">/ˈfɔːrtətuːd/</td><td class="blank">&#160;</td></tr><tr><td class="tname">panache</td><td class="tform">/pəˈnæʃ/</td><td class="blank">&#160;</td></tr><tr><td class="tname">moxie</td><td class="tform">/ˈmɑːksi/</td><td class="blank">&#160;</td></tr><tr><td class="tname">doomed</td><td class="tform">/duːmd/</td><td class="blank">&#160;</td></tr><tr><td class="tname">fortify</td><td class="tform">/ˈfɔːrtɪfaɪ/</td><td class="blank">&#160;</td></tr><tr><td class="tname">embellished</td><td class="tform">/ɪmˈbelɪʃt/</td><td class="blank">&#160;</td></tr><tr><td class="tname">lure</td><td class="tform">/lʊr/</td><td class="blank">&#160;</td></tr><tr><td class="tname">prowess</td><td class="tform">/ˈpraʊəs/</td><td class="blank">&#160;</td></tr><tr><td class="tname">mettle</td><td class="tform">/ˈmetl/</td><td class="blank">&#160;</td></tr><tr><td class="tname">diminutive</td><td class="tform">/dɪˈmɪnjətɪv/</td><td class="blank">&#160;</td></tr><tr><td class="tname">demote</td><td class="tform">/dɪˈmoʊt/</td><td class="blank">&#160;</td></tr><tr><td class="tname">pick up where we left off</td><td class="tform">/pɪk ʌp wer wi left ɔːf/</td><td class="blank">&#160;</td></tr><tr><td class="tname">there&#x27;s no telling</td><td class="tform">/ðerz noʊ ˈtelɪŋ/</td><td class="blank">&#160;</td></tr><tr><td class="tname">fall for</td><td class="tform">/fɔːl fɔːr/</td><td class="blank">&#160;</td></tr><tr><td class="tname">in a pickle</td><td class="tform">/ɪn ə ˈpɪkl/</td><td class="blank">&#160;</td></tr><tr><td class="tname">the faint of heart</td><td class="tform">/ðə feɪnt əv hɑːrt/</td><td class="blank">&#160;</td></tr><tr><td class="tname">make it up to</td><td class="tform">/meɪk ɪt ʌp tuː/</td><td class="blank">&#160;</td></tr><tr><td class="tname">no hard feelings</td><td class="tform">/noʊ hɑːrd ˈfiːlɪŋz/</td><td class="blank">&#160;</td></tr><tr><td class="tname">tail between one&#x27;s legs</td><td class="tform">/teɪl bɪˈtwiːn wʌnz leɡz/</td><td class="blank">&#160;</td></tr><tr><td class="tname">keep your eyes on the prize</td><td class="tform">/kiːp jʊr aɪz ɑːn ðə praɪz/</td><td class="blank">&#160;</td></tr><tr><td class="tname">read the room</td><td class="tform">/riːd ðə ruːm/</td><td class="blank">&#160;</td></tr><tr><td class="tname">in deep shrimp</td><td class="tform">/ɪn diːp ʃrɪmp/</td><td class="blank">&#160;</td></tr><tr><td class="tname">kick butt</td><td class="tform">/kɪk bʌt/</td><td class="blank">&#160;</td></tr></tbody></table><ol class="cloze"><li>Oh, who am I kidding? I&#x27;ll never be a <u>&#160;</u>.<span class="zh">唉，我骗谁呢？我永远成不了剑客。</span></li><li>Guts, grit, moxie, and intestinal <u>&#160;</u>.<span class="zh">胆量、韧劲、闯劲，还有『肠子的坚韧』。</span></li><li><u>&#160;</u>. Moxie. Intestinal fortitude.<span class="zh">潇洒、闯劲，还有『肠子的坚韧』。</span></li><li>They got more panache, guts, grit, <u>&#160;</u> and intestinal fortitude than any swashbuckler I ever met.<span class="zh">他们比任何我见过的剑客都更有派头、胆量、韧劲、闯劲和『肠子的坚韧』。</span></li><li>Henceforth, the Flying Dutchman is <u>&#160;</u> to wander the seas in search of this magical soul.<span class="zh">从此，飞行荷兰人注定要在海上漂泊，寻找那个神奇的灵魂。</span></li><li>Patrick, I think these are the guys who are gonna <u>&#160;</u> our intestines!<span class="zh">派大星，我觉得这些家伙就是来加固我们肠子的！</span></li><li>I <u>&#160;</u> a few o&#x27; the finer details.<span class="zh">有几个细节嘛……我加了点戏。</span></li><li>The dirty deceiver promised to make me a swashbuckler, and <u>&#160;</u> me to the Underworld.<span class="zh">那个卑鄙的骗子许诺让我当上剑客，把我诱骗到了阴曹地府。</span></li><li>True, he don&#x27;t have physical <u>&#160;</u> or pirating ability,<span class="zh">没错，他既没有体魄本领，也不会当海盗，……</span></li><li>You look like the kind of strappin&#x27; young bubble-blowin&#x27; fella who wants, nay, needs a chance to prove his <u>&#160;</u>.<span class="zh">你这小伙子高大精神、吹得一手好泡泡，想——不，是需要一个证明自己实力的机会。</span></li><li>You can&#x27;t be SpongeBob. He&#x27;s far more <u>&#160;</u>.<span class="zh">你不可能是海绵宝宝。他可比你小多了。</span></li><li>I&#x27;ll <u>&#160;</u> you to fry cook. Permanently!<span class="zh">我就把你降职去炸汉堡。永久的！</span></li><li>What say we <u>&#160;</u>?<span class="zh">不如我们从上次没完的地方接着来？</span></li><li>There&#x27;s no <u>&#160;</u> what trouble that cutthroat pirate will cause.<span class="zh">谁也说不准那个亡命海盗会惹出什么乱子。</span></li><li>It&#x27;s all been a big lie, and you <u>&#160;</u> <u>&#160;</u> it.<span class="zh">这一切都是天大的谎话，而你上当了。</span></li><li>If ya want to get out of this <u>&#160;</u>, you&#x27;re gonna have to start actin&#x27; like a rough-and-tumble swashbuckler.<span class="zh">你要想摆脱眼前的困境，就得拿出剑客那股又野又硬的劲儿来。</span></li><li>A trip to the Underworld is not for <u>&#160;</u>.<span class="zh">去阴曹地府走一遭，可不是给胆小鬼准备的。</span></li><li>You can <u>&#160;</u> him once you&#x27;re a swashbuckler.<span class="zh">等你当上剑客，再补偿他也不迟。</span></li><li>Uh, <u>&#160;</u> <u>&#160;</u> feelin&#x27;s about leavin&#x27; ya behind.<span class="zh">呃，把你落在后面这事儿，你可别往心里去。</span></li><li>The Underworld shivered me timbers and I ran home, <u>&#160;</u> between me <u>&#160;</u>.<span class="zh">阴曹地府震得我魂飞魄散，我夹着尾巴跑回了家。</span></li><li>Just <u>&#160;</u>.<span class="zh">眼睛盯着目标就行。</span></li><li>Come on, Barb... <u>&#160;</u>.<span class="zh">拜托，巴布……看看现在什么场合。</span></li><li>I&#x27;m <u>&#160;</u>.<span class="zh">我这下麻烦大了。</span></li><li>I came here to do two things, <u>&#160;</u> and blow bubbles.<span class="zh">我来这儿就办两件事：大干一场，和吹泡泡。</span></li></ol><div class="key"><span class="lab">挖空答案</span>01 swashbuckler　02 fortitude　03 panache　04 moxie　05 doomed　06 fortify　07 embellished　08 lure　09 prowess　10 mettle　11 diminutive　12 demote　13 pick up where we left off　14 there&#x27;s no telling　15 fall for　16 in a pickle　17 the faint of heart　18 make it up to　19 no hard feelings　20 tail between one&#x27;s legs　21 keep your eyes on the prize　22 read the room　23 in deep shrimp　24 kick butt</div></section>
+  <div class="footpage"><span>The SpongeBob Movie: Search for SquarePants 2025·电影 预习笔记 · 目标水平 高中（词汇量约 3500）</span><span>共 24 条表达</span></div>
+</article>
+
+<script>
+(function(){
+  var btns=[].slice.call(document.querySelectorAll('.toolbar button[data-theme]'));
+  function set(mode){
+    document.documentElement.setAttribute('data-theme',mode);
+    btns.forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-theme')===mode?'true':'false')});
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){set(b.getAttribute('data-theme'))})});
+  var p=document.getElementById('printBtn');
+  if(p)p.addEventListener('click',function(){set('print');window.print()});
+})();
+</script>
+</body>
+</html>

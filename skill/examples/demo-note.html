@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="print">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>演示剧集 S01E01 预习笔记</title>
+<style>
+/* ===== 色彩 Token · 打印主题（灰度安全，全部实色，无渐变/投影/半透明） ===== */
+:root{
+  --paper:#FBFAF7;      /* 页面底色，暖白 */
+  --sheet:#FFFFFF;      /* 纸面 */
+  --ink:#1A1A1A;        /* 正文、词头 */
+  --ink-2:#4A4A4A;      /* 释义、翻译、辅助 */
+  --ink-3:#8A857D;      /* 元信息、答案 */
+  --rule:#D8D4CE;       /* 细线、三线表内线 */
+  --rule-strong:#1A1A1A;/* 三线表上下粗线 */
+  --wash:#F3F2EF;       /* 规则框底，实色 */
+  --accent:#2F4E6E;     /* 唯一强调色：编号、规则框左边线 */
+  --mark:#A6392E;       /* 仅用于 ✗ */
+  --hl:#EFE3C8;         /* 高亮底，实色平涂 */
+
+  /* 分类色在打印主题下一律塌缩为墨色，层级交给字重、字号与细线 */
+  --c-vocab:var(--ink); --c-phrase:var(--ink); --c-grammar:var(--ink); --c-review:var(--ink-2);
+
+  --font-body:"Times New Roman","Songti SC",SimSun,"Noto Serif SC",serif;
+  --font-head:"Times New Roman","Heiti SC",SimHei,"Microsoft YaHei","Noto Sans SC",sans-serif;
+  --font-mono:Consolas,"Courier New","Songti SC",monospace;
+}
+/* 屏幕阅读可选的语义色主题；打印时不生效 */
+html[data-theme="color"]{
+  --c-vocab:#E58522; --c-phrase:#00AA90; --c-grammar:#58B2DC; --c-review:#B481BB;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--font-body);font-size:10.5pt;line-height:1.5;
+  font-synthesis:none;-webkit-font-smoothing:antialiased;line-break:strict;overflow-wrap:break-word;
+}
+p{margin:0 0 1.2em}          /* 段间距 12.6pt > 行距 15.75pt 的观感靠段首行对齐保证 */
+h1,h2{margin:0;text-wrap:balance}
+table{border-collapse:collapse;width:100%}
+.num,.tnum{font-variant-numeric:tabular-nums}
+
+/* ===== 版面：A4 · 四边 25mm（屏幕上以纸张卡片呈现，四边内衬 25mm） ===== */
+.toolbar{max-width:210mm;margin:18px auto 0;display:flex;justify-content:flex-end;gap:8px}
+.toolbar button{
+  font-family:var(--font-head);font-size:9pt;color:var(--ink-2);background:var(--sheet);
+  border:1px solid var(--rule);border-radius:4px;padding:5px 12px;cursor:pointer;
+}
+.toolbar button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.sheet{width:210mm;max-width:calc(100% - 24px);margin:18px auto 40px;background:var(--sheet);padding:25mm 25mm 20mm}
+
+/* ===== 页眉跑马行 ===== */
+.runhead{
+  display:flex;justify-content:space-between;gap:12px;
+  font-family:var(--font-head);font-size:8.5pt;letter-spacing:.04em;color:var(--ink-3);
+  border-bottom:.5pt solid var(--rule);padding-bottom:6pt;margin-bottom:10pt;
+}
+.runhead .accent{color:var(--accent)}
+
+/* ===== 标题与导读 ===== */
+.note-title{font-family:var(--font-head);font-size:16pt;font-weight:700;line-height:1.25;letter-spacing:-.01em}
+.note-lead{margin:6pt 0 0;color:var(--ink-2);font-size:10.5pt;line-height:1.5}
+.note-flag{margin:8pt 0 0;padding:6pt 10pt;background:var(--wash);border-left:3pt solid var(--accent);font-size:9.5pt;color:var(--ink-2)}
+
+/* ===== 章节标题：1 / 1.1 分级编号 ===== */
+.sec{margin-top:16pt;break-inside:auto}
+.sec-head{
+  display:flex;align-items:baseline;gap:8pt;
+  padding-bottom:4pt;border-bottom:1.5pt solid var(--accent);
+  break-after:avoid;page-break-after:avoid;
+}
+.sec-head .idx{font-family:var(--font-head);font-size:10pt;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+.sec-head .tt{font-family:var(--font-head);font-size:12pt;font-weight:700}
+.sec-head .cnt{margin-left:auto;font-family:var(--font-mono);font-size:8.5pt;color:var(--ink-3)}
+
+/* ===== 词条：悬挂缩进，续行缩进 2 字符 ===== */
+.entry{margin-top:8pt;padding-left:2.2em;break-inside:avoid;page-break-inside:avoid}
+.entry .l1{text-indent:-2.2em}
+.eno{font-family:var(--font-mono);font-size:9pt;color:var(--ink-3);margin-right:5pt;font-variant-numeric:tabular-nums}
+.entry .head{font-weight:700;font-size:11.5pt}
+.entry .pron{font-family:var(--font-mono);font-size:9pt;color:var(--ink-2);margin-left:6pt}
+.entry .pos{font-family:var(--font-head);font-size:9pt;color:var(--c-vocab);margin-left:5pt}
+.entry .def{background:var(--hl);padding:0 2pt}
+.entry .ex{margin-top:2pt;color:var(--ink-2)}
+.entry .ex .en{color:var(--ink)}
+.entry .ex b{font-weight:700}
+.entry .zh{font-family:var(--font-head);font-size:9.5pt}
+.entry .who{white-space:nowrap}
+.who{font-family:var(--font-mono);font-size:8.5pt;color:var(--ink-3);margin-left:5pt}
+.entry .ctx{margin-top:2pt;font-family:var(--font-head);font-size:9.5pt;color:var(--ink-2)}
+.entry .mn{margin-top:2pt;font-family:var(--font-head);font-size:9.5pt;color:var(--ink-2)}
+.entry .mn .lab{font-weight:700;color:var(--ink)}
+.tags{margin-top:4pt;display:flex;flex-wrap:wrap;gap:4pt}
+.tag{
+  font-family:var(--font-head);font-size:8.5pt;line-height:1.5;
+  border:.5pt solid var(--rule);border-radius:3px;padding:1pt 6pt;color:var(--ink-2);background:var(--wash);
+  white-space:nowrap;
+}
+.tag.t-phrase{color:var(--c-phrase)}
+.tag.t-grammar{color:var(--c-grammar)}
+
+/* ===== 口语语法点 ===== */
+.gram{margin-top:8pt;break-inside:avoid;page-break-inside:avoid}
+.gram .gt{font-family:var(--font-head);font-size:10.5pt;font-weight:700}
+.gram .gt .eno{font-weight:400}
+.pair{margin-top:4pt;display:flex;flex-direction:column;gap:3pt}
+.pair .line{display:flex;gap:7pt;align-items:baseline}
+.pair .lab{flex:none;width:3.6em;font-family:var(--font-head);font-size:8.5pt;color:var(--ink-3);text-align:right}
+.pair .bad .txt{text-decoration:line-through;text-decoration-thickness:.5pt;color:var(--ink-2)}
+.pair .bad .lab{color:var(--mark)}
+.pair .good .txt b{font-weight:700;border-bottom:1.5pt solid var(--accent)}
+.rule{margin-top:5pt;padding:5pt 9pt;background:var(--wash);border-left:3pt solid var(--accent);font-size:9.5pt;color:var(--ink-2);break-inside:avoid;page-break-inside:avoid}
+.rule .lab{font-family:var(--font-head);font-size:8.5pt;font-weight:700;letter-spacing:.06em;color:var(--accent);margin-right:5pt}
+
+/* ===== 文化背景注 ===== */
+.cul{margin-top:7pt;padding-left:2.2em;break-inside:avoid;page-break-inside:avoid}
+.cul .l1{text-indent:-2.2em}
+.cul .term{font-weight:700}
+.cul .note{margin-top:2pt;font-family:var(--font-head);font-size:9.5pt;color:var(--ink-2)}
+
+/* ===== 三线表：上下粗线、中间细线、无竖线 ===== */
+.t3{margin-top:8pt;font-size:9.5pt;break-inside:avoid;page-break-inside:avoid}
+.t3 caption{
+  text-align:left;font-family:var(--font-mono);font-size:8.5pt;letter-spacing:.05em;
+  color:var(--ink-3);padding-bottom:4pt;
+}
+.t3 thead th{
+  text-align:left;font-family:var(--font-head);font-size:9pt;font-weight:700;color:var(--ink);
+  border-top:1.5pt solid var(--rule-strong);border-bottom:.75pt solid var(--rule-strong);padding:4pt 6pt;
+}
+.t3 tbody td{padding:3pt 6pt;border:0;vertical-align:top}
+.t3 tbody tr+tr td{border-top:.5pt solid var(--rule)}
+.t3 tbody tr:last-child td{border-bottom:1.5pt solid var(--rule-strong)}
+.t3 .tname{font-weight:700;white-space:nowrap}
+.t3 .tform{font-family:var(--font-mono);font-size:9pt;color:var(--ink-2);white-space:nowrap}
+.t3 .blank{border-bottom:.5pt solid var(--rule)}
+
+/* ===== 自测清单 ===== */
+.cloze{margin:8pt 0 0;padding-left:2em;font-size:10pt}
+.cloze li{margin-bottom:4pt;break-inside:avoid;page-break-inside:avoid}
+.cloze .zh{font-family:var(--font-head);font-size:9.5pt;color:var(--ink-2);display:block}
+.cloze u{text-decoration:none;border-bottom:.75pt solid var(--ink);padding:0 1.6em;letter-spacing:.06em}
+.key{margin-top:6pt;font-family:var(--font-mono);font-size:8.5pt;color:var(--ink-3);line-height:1.6}
+.key .lab{font-family:var(--font-head);font-weight:700;color:var(--ink-2);margin-right:5pt}
+
+/* ===== 页脚 ===== */
+.footpage{
+  margin-top:16pt;padding-top:6pt;border-top:.5pt solid var(--rule);
+  display:flex;justify-content:space-between;gap:10pt;
+  font-family:var(--font-mono);font-size:8.5pt;color:var(--ink-3);
+}
+.footpage span+span{white-space:nowrap}
+
+/* ===== 打印 ===== */
+@page{size:A4;margin:25mm;@bottom-center{content:counter(page);font-family:serif;font-size:9pt;color:#8A857D}}
+@media print{
+  html,body{background:#FFF}
+  .toolbar{display:none}
+  .sheet{width:auto;margin:0;padding:0}
+  .runhead{position:running(runhead)}
+  a[href]::after{content:""}
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar" role="group" aria-label="配色主题">
+  <button type="button" data-theme="print" aria-pressed="true">灰度打印</button>
+  <button type="button" data-theme="color" aria-pressed="false">彩色标注</button>
+  <button type="button" id="printBtn">打印 / 存为 PDF</button>
+</div>
+
+<article class="sheet">
+  <div class="runhead"><span>演示剧集 · S01E01</span><span class="accent">字幕来源：原创演示句，不来自任何真实剧集</span></div>
+<h1 class="note-title">演示剧集 S01E01 预习笔记</h1><p class="note-lead">本集是一份排版演示：用原创句子验证词条体例、语法点对照、三线表与自测清单在灰度打印下的层级。正式使用时全部内容来自核验过的该集字幕。</p><p class="note-flag">演示样张 · 全部例句为原创，仅用于检查版式，不代表任何剧集的真实台词。</p><section class="sec"><div class="sec-head"><span class="idx">1</span><span class="tt">本集词汇地图</span><span class="cnt">17 条</span></div><p>收录 <span class="tnum">17</span> 条表达：重点词汇 <span class="tnum">10</span> 条、短语与习语 <span class="tnum">7</span> 条；口语语法点 <span class="tnum">3</span> 个、文化背景注 <span class="tnum">2</span> 条。目标水平：高中（词汇量约 3500）。</p><table class="t3"><caption>表 1 · 难度分布</caption><thead><tr><th style="width:26%">类别</th><th style="width:14%">词数</th><th>本集示例</th></tr></thead><tbody><tr><td class="tname">超纲实词</td><td class="tnum">7</td><td>improvise、reluctant、plausible</td></tr><tr><td class="tname">短语搭配</td><td class="tnum">4</td><td>pull off、come up with、get away with</td></tr><tr><td class="tname">俚语口语</td><td class="tnum">3</td><td>on the fence、call it a day、off the record</td></tr><tr><td class="tname">派生词</td><td class="tnum">3</td><td>overwhelming、confidential、deliberately</td></tr></tbody></table></section><section class="sec"><div class="sec-head"><span class="idx">2</span><span class="tt">重点词汇</span><span class="cnt">10 条</span></div><div class="entry"><div class="l1"><span class="eno">01</span><span class="head">improvise</span><span class="pron">/ˈɪmprəvaɪz/</span><span class="pos">v.</span> <span class="def">临时凑合着应付；现编现演</span></div><div class="ex"><span class="en">The projector died, so I had to <b>improvise</b> the whole briefing.</span><span class="who">— Dana · 00:04:12</span></div><div class="zh">投影仪坏了，整场简报我只能临时现编。</div><div class="ctx">会议室设备突然故障，她被迫脱稿。</div><div class="mn"><span class="lab">记忆点</span>im-（不）+ provise（预先看见）= 没预先准备，只能现编。</div><div class="tags"><span class="tag t-phrase">improvise a solution 临时想出办法</span><span class="tag t-grammar">improvisation n. 即兴之作</span><span class="tag">本集出现 2 次</span></div></div><div class="entry"><div class="l1"><span class="eno">02</span><span class="head">reluctant</span><span class="pron">/rɪˈlʌktənt/</span><span class="pos">adj.</span> <span class="def">不情愿的；勉勉强强的</span></div><div class="ex"><span class="en">She gave a <b>reluctant</b> nod and reached for the envelope.</span><span class="who">— 旁白 · 00:11:38</span></div><div class="zh">她不情愿地点了下头，伸手去拿那个信封。</div><div class="ctx">她其实不想接这份委托，但没有别的选择。</div><div class="mn"><span class="lab">记忆点</span>re-（往回）+ luctant（挣扎）= 心里往后缩着，不愿往前。</div><div class="tags"><span class="tag t-phrase">be reluctant to do sth 不愿做某事</span><span class="tag t-grammar">reluctance n. 勉强</span><span class="tag">近义 unwilling</span><span class="tag">反义 eager</span></div></div><div class="entry"><div class="l1"><span class="eno">03</span><span class="head">plausible</span><span class="pron">/ˈplɔːzəbl/</span><span class="pos">adj.</span> <span class="def">听着像真的；说得过去的</span></div><div class="ex"><span class="en">His alibi sounded <b>plausible</b> until we checked the timestamps.</span><span class="who">— Reyes · 00:19:05</span></div><div class="zh">他的不在场说法听着挺像真的，直到我们核了时间戳。</div><div class="ctx">审讯后复盘，证词初听成立但经不起查。</div><div class="mn"><span class="lab">记忆点</span>plaud（鼓掌）同源 —— 听着值得鼓掌，但不一定是真的。</div><div class="tags"><span class="tag t-phrase">a plausible excuse 说得过去的借口</span><span class="tag t-grammar">plausibility n. 可信度</span><span class="tag">反义 far-fetched</span></div></div><div class="entry"><div class="l1"><span class="eno">04</span><span class="head">meticulous</span><span class="pron">/məˈtɪkjələs/</span><span class="pos">adj.</span> <span class="def">一丝不苟的；细到抠字眼</span></div><div class="ex"><span class="en">He kept <b>meticulous</b> notes on every call he ever took.</span><span class="who">— Dana · 00:26:41</span></div><div class="zh">他接过的每一个电话都记了极细的笔记。</div><div class="ctx">同事翻到他留下的档案，密密麻麻。</div><div class="tags"><span class="tag t-phrase">meticulous attention to detail 极度注重细节</span><span class="tag t-grammar">meticulously adv. 一丝不苟地</span></div></div><div class="entry"><div class="l1"><span class="eno">05</span><span class="head">inevitable</span><span class="pron">/ɪnˈevɪtəbl/</span><span class="pos">adj.</span> <span class="def">躲不掉的；注定要发生的</span></div><div class="ex"><span class="en">Once the story leaked, the resignation was <b>inevitable</b>.</span><span class="who">— Reyes · 00:33:20</span></div><div class="zh">消息一泄出去，辞职就是躲不掉的了。</div><div class="ctx">舆论压力下结局已经锁定。</div><div class="mn"><span class="lab">记忆点</span>in-（不）+ evitable（可回避的）= 避不开。</div><div class="tags"><span class="tag t-phrase">the inevitable consequence 必然的后果</span><span class="tag t-grammar">inevitably adv. 不可避免地</span><span class="tag">本集出现 2 次</span></div></div><div class="entry"><div class="l1"><span class="eno">06</span><span class="head">overwhelming</span><span class="pron">/ˌəʊvəˈwelmɪŋ/</span><span class="pos">adj.</span> <span class="def">压得人喘不过气的；压倒性的</span></div><div class="ex"><span class="en">The support from strangers was <b>overwhelming</b>.</span><span class="who">— Dana · 00:38:02</span></div><div class="zh">陌生人给的支持多到让人受不住。</div><div class="ctx">情绪正面但强度过载。</div><div class="tags"><span class="tag t-grammar">overwhelm v. 使难以承受</span></div></div><div class="entry"><div class="l1"><span class="eno">07</span><span class="head">confidential</span><span class="pron">/ˌkɒnfɪˈdenʃl/</span><span class="pos">adj.</span> <span class="def">保密的；不能外传的</span></div><div class="ex"><span class="en">Everything in this folder stays <b>confidential</b>.</span><span class="who">— Reyes · 00:41:57</span></div><div class="zh">这个文件夹里的东西一律不外传。</div><div class="ctx">交接材料时立规矩。</div><div class="tags"><span class="tag t-phrase">strictly confidential 严格保密</span><span class="tag t-grammar">confidentiality n. 保密性</span></div></div><div class="entry"><div class="l1"><span class="eno">08</span><span class="head">skeptical</span><span class="pron">/ˈskeptɪkl/</span><span class="pos">adj.</span> <span class="def">不太信的；持怀疑态度的</span></div><div class="ex"><span class="en">I was <b>skeptical</b> about the deadline from the start.</span><span class="who">— Dana · 00:45:16</span></div><div class="zh">那个截止日期我从一开始就不太信。</div><div class="ctx">回头看，她的怀疑是对的。</div><div class="tags"><span class="tag t-phrase">be skeptical about sth 对某事存疑</span><span class="tag t-grammar">skepticism n. 怀疑态度</span></div></div><div class="entry"><div class="l1"><span class="eno">09</span><span class="head">notorious</span><span class="pron">/nəʊˈtɔːriəs/</span><span class="pos">adj.</span> <span class="def">出了名的（坏名声）</span></div><div class="ex"><span class="en">That intersection is <b>notorious</b> for late-night accidents.</span><span class="who">— Reyes · 00:49:33</span></div><div class="zh">那个路口深夜出事故是出了名的。</div><div class="ctx">解释为什么要绕路。</div><div class="mn"><span class="lab">记忆点</span>和 famous 只差名声的方向：notorious 一定是坏的。</div><div class="tags"><span class="tag t-phrase">be notorious for sth 因某坏事出名</span><span class="tag">近义 infamous</span><span class="tag">对比 famous（好名声）</span></div></div><div class="entry"><div class="l1"><span class="eno">10</span><span class="head">deliberately</span><span class="pron">/dɪˈlɪbərətli/</span><span class="pos">adv.</span> <span class="def">故意地；有意这么做</span></div><div class="ex"><span class="en">She <b>deliberately</b> left her badge on the desk.</span><span class="who">— 旁白 · 00:52:48</span></div><div class="zh">她故意把工牌留在了桌上。</div><div class="ctx">这个动作是留给后面的线索。</div><div class="tags"><span class="tag t-grammar">deliberate adj. 有意的</span><span class="tag">近义 on purpose</span><span class="tag">反义 accidentally</span></div></div></section><section class="sec"><div class="sec-head"><span class="idx">3</span><span class="tt">短语与习语</span><span class="cnt">7 条</span></div><div class="entry"><div class="l1"><span class="eno">11</span><span class="head">pull off</span><span class="pron">/pʊl ɒf/</span><span class="pos">phr. v.</span> <span class="def">把难办的事办成了</span></div><div class="ex"><span class="en">I still don&#x27;t know how you <b>pulled</b> that <b>off</b>.</span><span class="who">— Reyes · 00:07:29</span></div><div class="zh">我到现在都不知道你是怎么把那事办成的。</div><div class="ctx">夸对方在几乎不可能的条件下搞定了。</div><div class="mn"><span class="lab">记忆点</span>像把一件难脱的衣服硬拽下来 —— 费劲但成了。</div><div class="tags"><span class="tag t-phrase">pull off a deal 谈成一笔交易</span><span class="tag">本集出现 2 次</span></div></div><div class="entry"><div class="l1"><span class="eno">12</span><span class="head">come up with</span><span class="pron">/kʌm ʌp wɪð/</span><span class="pos">phr. v.</span> <span class="def">想出（办法、主意）</span></div><div class="ex"><span class="en">Give me ten minutes to <b>come up with</b> something better.</span><span class="who">— Dana · 00:15:44</span></div><div class="zh">给我十分钟，我想个更好的办法。</div><div class="ctx">方案被否，她要求时间重想。</div><div class="tags"><span class="tag t-phrase">come up with an idea 想出一个主意</span><span class="tag">本集出现 3 次</span></div></div><div class="entry"><div class="l1"><span class="eno">13</span><span class="head">get away with</span><span class="pron">/ɡet əˈweɪ wɪð/</span><span class="pos">phr. v.</span> <span class="def">做了坏事却没被追究</span></div><div class="ex"><span class="en">He&#x27;s been <b>getting</b> <b>away</b> <b>with</b> it for years.</span><span class="who">— Reyes · 00:22:10</span></div><div class="zh">这事他干了好几年都没被追究。</div><div class="ctx">指责对方长期逃脱责任。</div><div class="tags"><span class="tag t-phrase">get away with murder 干了大坏事也没事</span></div></div><div class="entry"><div class="l1"><span class="eno">14</span><span class="head">on the fence</span><span class="pron">/ɒn ðə fens/</span><span class="pos">idiom</span> <span class="def">还在犹豫，两边都没选</span></div><div class="ex"><span class="en">The committee is still <b>on the fence</b> about funding us.</span><span class="who">— Dana · 00:29:55</span></div><div class="zh">委员会要不要给我们拨款，还在犹豫。</div><div class="ctx">结果未定，两种可能都存在。</div><div class="mn"><span class="lab">记忆点</span>人骑在栅栏上，两边都没落地。</div><div class="tags"><span class="tag t-phrase">sit on the fence 保持中立不表态</span></div></div><div class="entry"><div class="l1"><span class="eno">15</span><span class="head">call it a day</span><span class="pron">/kɔːl ɪt ə deɪ/</span><span class="pos">idiom</span> <span class="def">今天就干到这儿；收工</span></div><div class="ex"><span class="en">It&#x27;s past midnight — let&#x27;s <b>call it a day</b>.</span><span class="who">— Reyes · 00:36:18</span></div><div class="zh">都过半夜了，今天就到这儿吧。</div><div class="ctx">加班太久，提议散会。</div></div><div class="entry"><div class="l1"><span class="eno">16</span><span class="head">off the record</span><span class="pron">/ɒf ðə ˈrekɔːd/</span><span class="pos">idiom</span> <span class="def">私下说的，不许记录引用</span></div><div class="ex"><span class="en"><b>Off the record</b>, nobody here believes that report.</span><span class="who">— Dana · 00:43:07</span></div><div class="zh">私下说，这儿没人信那份报告。</div><div class="ctx">新闻语境里的常用免责前缀。</div><div class="tags"><span class="tag t-phrase">on the record 可公开引用</span></div></div><div class="entry"><div class="l1"><span class="eno">17</span><span class="head">figure out</span><span class="pron">/ˈfɪɡər aʊt/</span><span class="pos">phr. v.</span> <span class="def">弄明白；琢磨出来</span></div><div class="ex"><span class="en">We&#x27;ll <b>figure out</b> the logistics tomorrow.</span><span class="who">— Reyes · 00:50:22</span></div><div class="zh">后勤的事我们明天再琢磨。</div><div class="ctx">把细节推到第二天。</div><div class="tags"><span class="tag t-phrase">figure out how to do sth 弄清怎么做</span><span class="tag">本集出现 2 次</span></div></div></section><section class="sec"><div class="sec-head"><span class="idx">4</span><span class="tt">口语语法点</span><span class="cnt">3 个</span></div><div class="gram"><div class="gt"><span class="eno">01</span>口语省略：答句里直接砍掉主语和助动词</div><div class="ex"><span class="en"><b>Sounds</b> good to me.</span><span class="who">— Dana · 00:08:51</span></div><div class="zh">我觉得行。</div><div class="pair"><div class="line bad"><span class="lab">✗</span><span class="txt">Sound good to me.</span></div><div class="line good"><span class="lab">✓</span><span class="txt"><b>Sounds</b> good to me.</span></div></div><div class="rule"><span class="lab">规则</span>完整形式是 That sounds good to me。口语里把主语 That 省掉，但动词仍跟着被省的第三人称单数走，所以是 sounds 而不是 sound。</div></div><div class="gram"><div class="gt"><span class="eno">02</span>虚拟语气：对已经发生的事表示后悔</div><div class="ex"><span class="en">I wish I <b>had checked</b> the timestamps earlier.</span><span class="who">— Reyes · 00:20:33</span></div><div class="zh">早点核时间戳就好了。</div><div class="pair"><div class="line bad"><span class="lab">✗</span><span class="txt">I wish I checked the timestamps earlier.</span></div><div class="line good"><span class="lab">✓</span><span class="txt">I wish I <b>had checked</b> the timestamps earlier.</span></div></div><div class="rule"><span class="lab">规则</span>wish 后面谈过去做没做成的事，从句用过去完成时 had + 过去分词；用一般过去时只表示对现在状态的不满。</div></div><div class="gram"><div class="gt"><span class="eno">03</span>现在完成进行时：动作从过去一直延续到现在</div><div class="ex"><span class="en">He&#x27;s <b>been getting</b> away with it for years.</span><span class="who">— Reyes · 00:22:10</span></div><div class="zh">这事他干了好几年都没被追究。</div><div class="rule"><span class="lab">规则</span>have been + doing 强调动作持续且还在继续，常配 for years / since 这类时间段；换成一般过去时就暗示事情已经结束了。</div></div></section><section class="sec"><div class="sec-head"><span class="idx">5</span><span class="tt">文化背景注</span><span class="cnt">2 条</span></div><div class="cul"><div class="l1"><span class="eno">01</span><span class="term">off the record</span></div><div class="ex"><span class="en">Off the record, nobody here believes that report.</span><span class="who">— Dana · 00:43:07</span></div><div class="note">源自英美新闻采访惯例：受访者说这句，等于要求记者可以了解但不得记录或具名引用。剧里角色用它来划一条免责线，听到这句通常意味着接下来的话更接近真话。</div></div><div class="cul"><div class="l1"><span class="eno">02</span><span class="term">call it a day</span></div><div class="ex"><span class="en">It&#x27;s past midnight — let&#x27;s call it a day.</span><span class="who">— Reyes · 00:36:18</span></div><div class="note">原是工人下班用语，把一段劳动宣布为完整的「一天」。现在办公室里泛用为「收工、今天就到这」，语气轻松，不带抱怨。</div></div></section><section class="sec"><div class="sec-head"><span class="idx">6</span><span class="tt">自测清单</span><span class="cnt">回想 + 挖空</span></div><table class="t3"><caption>表 2 · 遮住右栏，回想中文释义</caption><thead><tr><th style="width:32%">词头</th><th style="width:24%">音标</th><th>释义</th></tr></thead><tbody><tr><td class="tname">improvise</td><td class="tform">/ˈɪmprəvaɪz/</td><td class="blank">&#160;</td></tr><tr><td class="tname">reluctant</td><td class="tform">/rɪˈlʌktənt/</td><td class="blank">&#160;</td></tr><tr><td class="tname">plausible</td><td class="tform">/ˈplɔːzəbl/</td><td class="blank">&#160;</td></tr><tr><td class="tname">meticulous</td><td class="tform">/məˈtɪkjələs/</td><td class="blank">&#160;</td></tr><tr><td class="tname">inevitable</td><td class="tform">/ɪnˈevɪtəbl/</td><td class="blank">&#160;</td></tr><tr><td class="tname">overwhelming</td><td class="tform">/ˌəʊvəˈwelmɪŋ/</td><td class="blank">&#160;</td></tr><tr><td class="tname">confidential</td><td class="tform">/ˌkɒnfɪˈdenʃl/</td><td class="blank">&#160;</td></tr><tr><td class="tname">skeptical</td><td class="tform">/ˈskeptɪkl/</td><td class="blank">&#160;</td></tr><tr><td class="tname">notorious</td><td class="tform">/nəʊˈtɔːriəs/</td><td class="blank">&#160;</td></tr><tr><td class="tname">deliberately</td><td class="tform">/dɪˈlɪbərətli/</td><td class="blank">&#160;</td></tr><tr><td class="tname">pull off</td><td class="tform">/pʊl ɒf/</td><td class="blank">&#160;</td></tr><tr><td class="tname">come up with</td><td class="tform">/kʌm ʌp wɪð/</td><td class="blank">&#160;</td></tr><tr><td class="tname">get away with</td><td class="tform">/ɡet əˈweɪ wɪð/</td><td class="blank">&#160;</td></tr><tr><td class="tname">on the fence</td><td class="tform">/ɒn ðə fens/</td><td class="blank">&#160;</td></tr><tr><td class="tname">call it a day</td><td class="tform">/kɔːl ɪt ə deɪ/</td><td class="blank">&#160;</td></tr><tr><td class="tname">off the record</td><td class="tform">/ɒf ðə ˈrekɔːd/</td><td class="blank">&#160;</td></tr><tr><td class="tname">figure out</td><td class="tform">/ˈfɪɡər aʊt/</td><td class="blank">&#160;</td></tr></tbody></table><ol class="cloze"><li>The projector died, so I had to <u>&#160;</u> the whole briefing.<span class="zh">投影仪坏了，整场简报我只能临时现编。</span></li><li>She gave a <u>&#160;</u> nod and reached for the envelope.<span class="zh">她不情愿地点了下头，伸手去拿那个信封。</span></li><li>His alibi sounded <u>&#160;</u> until we checked the timestamps.<span class="zh">他的不在场说法听着挺像真的，直到我们核了时间戳。</span></li><li>He kept <u>&#160;</u> notes on every call he ever took.<span class="zh">他接过的每一个电话都记了极细的笔记。</span></li><li>Once the story leaked, the resignation was <u>&#160;</u>.<span class="zh">消息一泄出去，辞职就是躲不掉的了。</span></li><li>The support from strangers was <u>&#160;</u>.<span class="zh">陌生人给的支持多到让人受不住。</span></li><li>Everything in this folder stays <u>&#160;</u>.<span class="zh">这个文件夹里的东西一律不外传。</span></li><li>I was <u>&#160;</u> about the deadline from the start.<span class="zh">那个截止日期我从一开始就不太信。</span></li><li>That intersection is <u>&#160;</u> for late-night accidents.<span class="zh">那个路口深夜出事故是出了名的。</span></li><li>She <u>&#160;</u> left her badge on the desk.<span class="zh">她故意把工牌留在了桌上。</span></li><li>I still don&#x27;t know how you <u>&#160;</u> that <u>&#160;</u>.<span class="zh">我到现在都不知道你是怎么把那事办成的。</span></li><li>Give me ten minutes to <u>&#160;</u> something better.<span class="zh">给我十分钟，我想个更好的办法。</span></li><li>He&#x27;s been <u>&#160;</u> <u>&#160;</u> <u>&#160;</u> it for years.<span class="zh">这事他干了好几年都没被追究。</span></li><li>The committee is still <u>&#160;</u> about funding us.<span class="zh">委员会要不要给我们拨款，还在犹豫。</span></li><li>It&#x27;s past midnight — let&#x27;s <u>&#160;</u>.<span class="zh">都过半夜了，今天就到这儿吧。</span></li><li><u>&#160;</u>, nobody here believes that report.<span class="zh">私下说，这儿没人信那份报告。</span></li><li>We&#x27;ll <u>&#160;</u> the logistics tomorrow.<span class="zh">后勤的事我们明天再琢磨。</span></li></ol><div class="key"><span class="lab">挖空答案</span>01 improvise　02 reluctant　03 plausible　04 meticulous　05 inevitable　06 overwhelming　07 confidential　08 skeptical　09 notorious　10 deliberately　11 pull off　12 come up with　13 get away with　14 on the fence　15 call it a day　16 off the record　17 figure out</div></section>
+  <div class="footpage"><span>演示剧集 S01E01 预习笔记 · 目标水平 高中（词汇量约 3500）</span><span>共 17 条表达</span></div>
+</article>
+
+<script>
+(function(){
+  var btns=[].slice.call(document.querySelectorAll('.toolbar button[data-theme]'));
+  function set(mode){
+    document.documentElement.setAttribute('data-theme',mode);
+    btns.forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-theme')===mode?'true':'false')});
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){set(b.getAttribute('data-theme'))})});
+  var p=document.getElementById('printBtn');
+  if(p)p.addEventListener('click',function(){set('print');window.print()});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>英语学习笔记 · 设计 Token 预览</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link href="https://cdn.jsdelivr.net/npm/@fontsource-variable/newsreader@5.2.10/index.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource-variable/noto-serif-sc@5.2.10/index.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource-variable/manrope@5.2.8/index.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource-variable/noto-sans-sc@5.2.10/index.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource-variable/jetbrains-mono@5.2.8/index.css" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBFAF7;
+    --sheet:#FFFFFF;
+    --ink:#1A1A1A;
+    --ink-2:#4A4A4A;
+    --ink-3:#8A857D;
+    --rule:#D8D4CE;
+    --rule-strong:#1A1A1A;
+    --accent-ink:#2F4E6E;
+    --mark:#A6392E;
+    --hl:#EFE3C8;
+
+    --note-vocab:#E58522;
+    --note-grammar:#58B2DC;
+    --note-error:#E65C53;
+    --note-phrase:#00AA90;
+    --note-review:#B481BB;
+
+    --font-serif:"Newsreader Variable","Noto Serif SC Variable","Songti SC",STSong,"Times New Roman",serif;
+    --font-sans:"Manrope Variable","Noto Sans SC Variable",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    --font-mono:"JetBrains Mono Variable",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+
+    --fs-h1:clamp(34px,4.6vw,56px);
+    --fs-h2:clamp(24px,3vw,34px);
+    --fs-h3:19px;
+    --fs-lead:18px;
+    --fs-body:15px;
+    --fs-meta:12.5px;
+
+    --gap-xs:8px;
+    --gap-sm:12px;
+    --gap-md:20px;
+    --gap-lg:32px;
+    --gap-xl:56px;
+    --gap-2xl:88px;
+    --container:1120px;
+    --gutter:28px;
+    --radius:8px;
+    --radius-lg:12px;
+
+    --hair:color-mix(in oklab,var(--ink) 10%,transparent);
+    --wash:color-mix(in oklab,var(--ink) 3.5%,transparent);
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-sans);
+    font-size:var(--fs-body);
+    line-height:1.6;
+    text-rendering:optimizeLegibility;
+    -webkit-font-smoothing:antialiased;
+    font-synthesis:none;
+    line-break:strict;
+    overflow-wrap:break-word;
+  }
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;cursor:pointer}
+  p{text-wrap:pretty}
+  h1,h2,h3{text-wrap:balance;margin:0}
+  hr{border:0}
+
+  .container{max-width:var(--container);margin-inline:auto;padding-inline:var(--gutter)}
+  .section{padding-block:clamp(48px,7vw,var(--gap-2xl))}
+  .section + .section{border-top:1px solid var(--hair)}
+  .row{display:flex;align-items:center;gap:var(--gap-md)}
+  .row-between{display:flex;align-items:center;justify-content:space-between;gap:var(--gap-md)}
+
+  .eyebrow{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);margin:0 0 var(--gap-md);font-weight:500}
+  h1{font-family:var(--font-serif);font-size:var(--fs-h1);line-height:1.06;letter-spacing:-.02em;font-weight:600}
+  h2{font-family:var(--font-serif);font-size:var(--fs-h2);line-height:1.14;letter-spacing:-.015em;font-weight:600}
+  h3{font-family:var(--font-serif);font-size:var(--fs-h3);font-weight:600;line-height:1.3}
+  .lead{font-size:var(--fs-lead);line-height:1.65;color:var(--ink-2);max-width:62ch;margin:var(--gap-md) 0 0}
+  .meta{font-family:var(--font-mono);font-size:var(--fs-meta);color:var(--ink-3)}
+  .num{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+
+  .topnav{position:sticky;top:0;z-index:20;background:color-mix(in oklab,var(--paper) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--hair)}
+  .topnav-inner{display:flex;align-items:center;justify-content:space-between;padding-block:13px;gap:var(--gap-sm)}
+  .brand{display:flex;align-items:baseline;gap:9px}
+  .brand .mark{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;color:var(--accent-ink);font-weight:500}
+  .brand .name{font-family:var(--font-serif);font-size:17px;font-weight:600;letter-spacing:-.01em}
+  .btns{display:flex;gap:8px;flex-wrap:wrap}
+
+  .seg{display:inline-flex;border:1px solid var(--hair);border-radius:999px;background:var(--wash);padding:3px}
+  .seg button{appearance:none;border:0;background:transparent;border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:500;color:var(--ink-2);letter-spacing:.01em}
+  .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+  .btn{display:inline-flex;align-items:center;gap:7px;padding:8px 15px;border-radius:999px;border:1px solid var(--hair);background:transparent;color:var(--ink);font-size:12.5px;font-weight:500;transition:border-color .15s ease,background .15s ease}
+  .btn:hover{border-color:var(--ink)}
+  .btn-accent{background:var(--accent-ink);border-color:var(--accent-ink);color:#fff}
+  .btn-accent:hover{background:color-mix(in oklab,var(--accent-ink) 86%,black)}
+
+  .hero{padding-block:clamp(52px,8vw,96px) clamp(36px,5vw,56px)}
+  .hero .grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:var(--gap-xl);align-items:end}
+  .hero-facts{display:flex;flex-direction:column;gap:14px;padding-left:var(--gap-md);border-left:2px solid var(--accent-ink)}
+  .hero-facts .fact{display:flex;flex-direction:column;gap:2px}
+  .hero-facts .k{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+  .hero-facts .v{font-size:14.5px;color:var(--ink)}
+  @media (max-width:900px){.hero .grid{grid-template-columns:1fr;gap:var(--gap-lg);align-items:start}}
+
+  .cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--gap-xl);align-items:start}
+  .cols-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-md)}
+  @media (max-width:900px){.cols,.cols-3{grid-template-columns:1fr}}
+
+  .sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:var(--gap-xl);align-items:end;margin-bottom:var(--gap-lg)}
+  @media (max-width:900px){.sec-head{grid-template-columns:1fr;gap:var(--gap-sm)}}
+
+  table{border-collapse:collapse;width:100%}
+  .spec-table{font-size:13px}
+  .spec-table caption{text-align:left;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding-bottom:10px}
+  .spec-table th{text-align:left;font-weight:600;color:var(--ink-2);font-size:12px;letter-spacing:.02em;padding:9px 10px;border-bottom:1.5px solid var(--rule-strong)}
+  .spec-table td{padding:10px;border-bottom:1px solid var(--hair);vertical-align:top}
+  .spec-table tr:last-child td{border-bottom:1.5px solid var(--rule-strong)}
+  .sw{display:inline-flex;align-items:center;gap:9px}
+  .chip{width:26px;height:26px;border-radius:6px;border:1px solid var(--hair);flex:none}
+  .code{font-family:var(--font-mono);font-size:12px;color:var(--ink)}
+  .hex{font-family:var(--font-mono);font-size:12px;color:var(--ink-3)}
+
+  .scalenum{font-family:var(--font-mono);font-size:12px;color:var(--ink-3);white-space:nowrap}
+  .scaledemo{font-family:var(--font-serif)}
+
+  .specimen-wrap{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:var(--gap-xl);align-items:start}
+  @media (max-width:980px){.specimen-wrap{grid-template-columns:1fr}}
+
+  .sheet{
+    background:var(--sheet);
+    border:1px solid var(--hair);
+    border-radius:var(--radius-lg);
+    box-shadow:0 18px 40px -30px rgba(26,26,26,.4);
+    padding:clamp(26px,4vw,46px) clamp(24px,4.4vw,52px);
+    font-family:var(--font-serif);
+    color:var(--ink);
+    --c-accent:var(--accent-ink);
+    --c-mark:var(--mark);
+    --c-hl:var(--hl);
+    --c-vocab:var(--ink);
+    --c-grammar:var(--ink);
+    --c-error:var(--ink);
+    --c-phrase:var(--ink);
+    --c-review:var(--ink);
+  }
+  .sheet[data-mode="color"]{
+    --c-accent:var(--note-grammar);
+    --c-mark:var(--note-error);
+    --c-hl:var(--hl);
+    --c-vocab:var(--note-vocab);
+    --c-grammar:var(--note-grammar);
+    --c-error:var(--note-error);
+    --c-phrase:var(--note-phrase);
+    --c-review:var(--note-review);
+  }
+  .sheet .runhead{display:flex;justify-content:space-between;gap:var(--gap-sm);font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);border-bottom:.5px solid var(--rule);padding-bottom:8px;margin-bottom:22px}
+  .sheet .runhead .accent{color:var(--c-accent)}
+  .sheet .note-h1{font-size:21px;font-weight:600;line-height:1.2;letter-spacing:-.01em;margin:0}
+  .sheet .note-passage{font-size:12px;color:var(--ink-2);margin-top:5px;font-family:var(--font-sans)}
+  .sheet .h2n{display:flex;align-items:baseline;gap:9px;margin-top:30px;padding-bottom:6px;border-bottom:1.5px solid var(--c-accent)}
+  .sheet .h2n .idx{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--c-accent)}
+  .sheet .h2n .tt{font-size:14px;font-weight:600;letter-spacing:.01em;font-family:var(--font-sans)}
+  .sheet .h2n .cnt{margin-left:auto;font-family:var(--font-mono);font-size:10.5px;color:var(--ink-3)}
+
+  .entry{margin-top:16px;padding-left:2.2em;font-size:12.5px;line-height:1.62}
+  .entry .l1{text-indent:-2.2em}
+  .entry .head{font-weight:600;font-size:14px;letter-spacing:-.005em}
+  .entry .pron{font-family:var(--font-mono);font-size:11px;color:var(--ink-2);margin-left:7px}
+  .entry .pos{font-family:var(--font-sans);font-size:11px;font-weight:500;color:var(--c-vocab);margin-left:6px}
+  .entry .def{padding:0 2px;background:linear-gradient(transparent 58%,var(--c-hl) 58%)}
+  .entry .ex{margin-top:3px;color:var(--ink-2)}
+  .entry .en{color:var(--ink)}
+  .entry .zh{font-family:var(--font-sans);font-size:11.5px}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .tag{display:inline-flex;align-items:center;white-space:nowrap;font-family:var(--font-sans);font-size:10px;font-weight:500;line-height:1.6;border-radius:3px;padding:1px 7px;border:.5px solid var(--hair);color:var(--ink-2);background:var(--wash)}
+  .tag.t-phrase{color:var(--c-phrase);border-color:color-mix(in oklab,var(--c-phrase) 35%,transparent)}
+  .tag.t-grammar{color:var(--c-grammar);border-color:color-mix(in oklab,var(--c-grammar) 35%,transparent)}
+
+  .pair{margin-top:14px;display:flex;flex-direction:column;gap:7px}
+  .pair .line{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;line-height:1.55}
+  .pair .sign{flex:none;font-family:var(--font-sans);font-size:11px;font-weight:600;width:15px;text-align:center}
+  .pair .bad .sign{color:var(--c-error)}
+  .pair .good .sign{color:#2F7D46}
+  .pair .bad .txt{text-decoration:line-through;text-decoration-color:var(--c-error);text-decoration-thickness:1px;color:var(--ink-2)}
+  .pair .good .txt b{font-weight:600;border-bottom:1.5px solid var(--c-accent)}
+
+  .rule{margin-top:14px;padding:9px 13px;border-left:3px solid var(--c-accent);background:var(--wash);font-size:12px;line-height:1.6;border-radius:0 var(--radius) var(--radius) 0}
+  .rule .lab{font-family:var(--font-sans);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--c-accent)}
+
+  .reviewbar{display:flex;align-items:center;gap:10px;margin-top:16px;padding-top:10px;border-top:.5px solid var(--rule);font-family:var(--font-sans);font-size:10.5px;color:var(--ink-2)}
+  .reviewbar .pill{display:inline-flex;align-items:center;border-radius:999px;padding:2px 9px;border:.5px solid color-mix(in oklab,var(--c-review) 40%,transparent);color:var(--c-review);font-weight:500}
+
+  .t3{margin-top:14px;width:100%;border-collapse:collapse;font-size:11.5px}
+  .t3 caption{text-align:left;font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;color:var(--ink-3);text-transform:uppercase;padding-bottom:6px}
+  .t3 thead th{text-align:left;font-family:var(--font-sans);font-size:10.5px;font-weight:600;color:var(--ink);border-top:1.5px solid var(--ink);border-bottom:1px solid var(--ink);padding:6px 8px}
+  .t3 tbody td{padding:6px 8px;border:0;vertical-align:top}
+  .t3 tbody tr + tr td{border-top:.5px solid var(--rule)}
+  .t3 tbody tr:last-child td{border-bottom:1.5px solid var(--ink)}
+  .t3 .tname{font-weight:600;white-space:nowrap}
+  .t3 .tform{font-family:var(--font-mono);font-size:11px;color:var(--ink-2);white-space:nowrap}
+  .t3 .ten{font-family:var(--font-sans);font-size:11px}
+
+  .footpage{display:flex;justify-content:center;margin-top:30px;padding-top:10px;border-top:.5px solid var(--rule);font-family:var(--font-mono);font-size:10px;color:var(--ink-3)}
+
+  .side{display:flex;flex-direction:column;gap:var(--gap-lg)}
+  .panel{border:1px solid var(--hair);border-radius:var(--radius-lg);padding:20px;background:var(--sheet)}
+  .panel h3{font-family:var(--font-sans);font-size:13px;font-weight:600;letter-spacing:.01em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .panel h3::before{content:"";width:6px;height:6px;border-radius:2px;background:var(--accent-ink);flex:none}
+  .kv{display:flex;flex-direction:column;gap:9px;font-size:13px}
+  .kv .line{display:flex;justify-content:space-between;gap:14px;padding-bottom:8px;border-bottom:1px solid var(--hair)}
+  .kv .line:last-child{border-bottom:0;padding-bottom:0}
+  .kv .k{color:var(--ink-2)}
+  .kv .v{font-family:var(--font-mono);font-size:12px;text-align:right}
+  .list{font-size:13px;color:var(--ink-2);line-height:1.62;margin:0;padding-left:17px}
+  .list li{margin-bottom:7px}
+  .list li:last-child{margin-bottom:0}
+  .list b{color:var(--ink);font-weight:600}
+  .callout{border:1px solid var(--hair);border-left:3px solid var(--accent-ink);border-radius:0 var(--radius-lg) var(--radius-lg) 0;padding:16px 18px;background:var(--sheet);font-size:13px;line-height:1.65;color:var(--ink-2)}
+  .callout b{color:var(--ink)}
+
+  .pipeline{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid var(--hair);border-radius:var(--radius-lg);overflow:hidden;background:var(--sheet)}
+  .pipeline .step{padding:18px 18px;border-right:1px solid var(--hair)}
+  .pipeline .step:last-child{border-right:0}
+  .pipeline .step .no{font-family:var(--font-mono);font-size:11px;color:var(--accent-ink);letter-spacing:.08em}
+  .pipeline .step .tt{font-family:var(--font-serif);font-size:15px;font-weight:600;margin:7px 0 5px}
+  .pipeline .step .ds{font-size:12.5px;color:var(--ink-2);line-height:1.5}
+  @media (max-width:820px){.pipeline{grid-template-columns:1fr 1fr}.pipeline .step:nth-child(2){border-right:0}.pipeline .step:nth-child(1),.pipeline .step:nth-child(2){border-bottom:1px solid var(--hair)}}
+  @media (max-width:520px){.pipeline{grid-template-columns:1fr}.pipeline .step{border-right:0;border-bottom:1px solid var(--hair)}.pipeline .step:last-child{border-bottom:0}}
+
+  .pagefoot{padding-block:var(--gap-xl);color:var(--ink-3);font-size:12.5px;border-top:1px solid var(--hair)}
+  .pagefoot .row-between{flex-wrap:wrap;gap:var(--gap-sm)}
+
+  @media print{
+    .topnav,.side,.hero-facts,.pagefoot{display:none}
+    body{background:#fff}
+    .sheet{box-shadow:none;border:0;padding:0}
+  }
+</style>
+</head>
+<body>
+
+<header class="topnav">
+  <div class="container topnav-inner">
+    <div class="brand">
+      <span class="mark">TOKENS / EN-NOTES</span>
+      <span class="name">英语学习笔记设计系统</span>
+    </div>
+    <div class="btns">
+      <div class="seg" role="group" aria-label="配色预览模式">
+        <button type="button" data-mode="print" aria-pressed="true">灰度打印</button>
+        <button type="button" data-mode="color" aria-pressed="false">彩色标注</button>
+      </div>
+      <button type="button" class="btn btn-accent" id="printBtn">打印样张</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section class="section hero" data-section="intro">
+    <div class="container">
+      <div class="grid">
+        <div>
+          <p class="eyebrow">Print-friendly · 论文式排版</p>
+          <h1>让自动生成的英语笔记，<br>像一份认真排过的资料。</h1>
+          <p class="lead">上传教材或教辅，系统提取重点、支持人工编辑，最后另存为 PDF。因为要打印、要长时间阅读，这套 token 把颜色收敛到"墨色 + 一个强调色 + 一个错误色"，层级主要交给字号、字重与细线来承担。</p>
+        </div>
+        <div class="hero-facts">
+          <div class="fact"><span class="k">Page</span><span class="v">A4 · 上下左右边距 25mm</span></div>
+          <div class="fact"><span class="k">Body</span><span class="v">正文 10.5pt 宋体 · 行距 1.5</span></div>
+          <div class="fact"><span class="k">Palette</span><span class="v">7 墨色 token · 灰度打印无损</span></div>
+          <div class="fact"><span class="k">Output</span><span class="v">矢量文本 PDF · 可检索</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-section="tokens">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">01 · 色彩 Token</p>
+          <h2>颜色只做强调，分类交给版式</h2>
+        </div>
+        <p class="lead">学术资料里颜色从来不是用来分类的——标题层级靠字重和位置，词条类型靠体例。下面两组配色覆盖同一个内容：左侧是导出用的墨色系，右侧是编辑界面可选的语义色，二者共用同一套 token 名。</p>
+      </div>
+
+      <div class="cols">
+        <table class="spec-table">
+          <caption>打印主题 · Ink（导出 PDF 使用）</caption>
+          <thead>
+            <tr><th style="width:44%">Token</th><th style="width:22%">值</th><th>用途</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="sw"><span class="chip" style="background:#FBFAF7"></span><span class="code">--paper</span></span></td><td class="hex">#FBFAF7</td><td>页面底色（暖白，非纯白）</td></tr>
+            <tr><td><span class="sw"><span class="chip" style="background:#1A1A1A"></span><span class="code">--ink</span></span></td><td class="hex">#1A1A1A</td><td>正文、词条词头</td></tr>
+            <tr><td><span class="sw"><span class="chip" style="background:#4A4A4A"></span><span class="code">--ink-2</span></span></td><td class="hex">#4A4A4A</td><td>释义、翻译、辅助信息</td></tr>
+            <tr><td><span class="sw"><span class="chip" style="background:#D8D4CE"></span><span class="code">--rule</span></span></td><td class="hex">#D8D4CE</td><td>细线、三线表内线</td></tr>
+            <tr><td><span class="sw"><span class="chip" style="background:#2F4E6E"></span><span class="code">--accent-ink</span></span></td><td class="hex">#2F4E6E</td><td>标题编号、规则框左边线</td></tr>
+            <tr><td><span class="sw"><span class="chip" style="background:#A6392E"></span><span class="code">--mark</span></span></td><td class="hex">#A6392E</td><td>仅用于错误句标记 ✗</td></tr>
+            <tr><td><span class="sw"><span class="chip" style="background:#EFE3C8"></span><span class="code">--hl</span></span></td><td class="hex">#EFE3C8</td><td>荧光高亮底（低饱和实色）</td></tr>
+          </tbody>
+        </table>
+
+        <table class="spec-table">
+          <caption>编辑主题 · Semantic（可选，仅界面）</caption>
+          <thead>
+            <tr><th style="width:44%">Token</th><th style="width:22%">值</th><th>用途</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="sw"><span class="chip" style="background:#E58522"></span><span class="code">--note-vocab</span></span></td><td class="hex">#E58522</td><td>生词标签</td></tr>
+            <tr><td><span class="sw"><span class="chip" style="background:#58B2DC"></span><span class="code">--note-grammar</span></span></td><td class="hex">#58B2DC</td><td>语法点、规则框</td></tr>
+            <tr><td><span class="sw"><span class="chip" style="background:#E65C53"></span><span class="code">--note-error</span></span></td><td class="hex">#E65C53</td><td>错题、错误句</td></tr>
+            <tr><td><span class="sw"><span class="chip" style="background:#00AA90"></span><span class="code">--note-phrase</span></span></td><td class="hex">#00AA90</td><td>短语搭配、派生词</td></tr>
+            <tr><td><span class="sw"><span class="chip" style="background:#B481BB"></span><span class="code">--note-review</span></span></td><td class="hex">#B481BB</td><td>待复习 / 抽查标记</td></tr>
+            <tr><td><span class="sw"><span class="chip" style="background:#2F7D46"></span><span class="code">--note-correct</span></span></td><td class="hex">#2F7D46</td><td>正确句标记 ✓</td></tr>
+            <tr><td colspan="3" class="meta" style="color:var(--ink-3)">编辑界面保留分类色便于快速筛选；导出时同名 token 映射到左侧墨色值，生成逻辑无需改动。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-section="type">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">02 · 排版 Token</p>
+          <h2>字号层级压到四档，中西文分工</h2>
+        </div>
+        <p class="lead">英文用衬线（Times 等效）避免宋体渲染拉丁字母时的锯齿，中文用宋体走正文、黑体走标题。行距 1.5、段间距大于行距，让视线有分区。</p>
+      </div>
+
+      <div class="cols">
+        <table class="spec-table">
+          <caption>Type scale</caption>
+          <thead><tr><th style="width:40%">角色</th><th style="width:26%">字号 / 字体</th><th>行高</th></tr></thead>
+          <tbody>
+            <tr><td>笔记标题 <span class="scalenum">title</span></td><td class="scaledemo" style="font-size:17px;font-weight:600">16pt · 衬线 600</td><td class="scalenum">1.25</td></tr>
+            <tr><td>章节标题 <span class="scalenum">h2</span></td><td class="scaledemo" style="font-size:14px;font-weight:600">12pt · 黑体 600</td><td class="scalenum">1.30</td></tr>
+            <tr><td>正文 <span class="scalenum">body</span></td><td>10.5pt 宋体 · 英文 11pt Times</td><td class="scalenum">1.50</td></tr>
+            <tr><td>脚注 / 标注 <span class="scalenum">caption</span></td><td>9pt 宋体</td><td class="scalenum">1.45</td></tr>
+          </tbody>
+        </table>
+
+        <div class="side">
+          <div class="panel">
+            <h3>页面与间距</h3>
+            <div class="kv">
+              <div class="line"><span class="k">纸张</span><span class="v">A4 · 210 × 297mm</span></div>
+              <div class="line"><span class="k">页边距</span><span class="v">上下 25mm · 左右 25mm</span></div>
+              <div class="line"><span class="k">间距基数</span><span class="v">4px · 4 / 8 / 16 / 24</span></div>
+              <div class="line"><span class="k">圆角</span><span class="v">8 / 12px</span></div>
+              <div class="line"><span class="k">分隔线</span><span class="v">0.5pt 实线 · 无阴影</span></div>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>为 PDF 导出做的取舍</h3>
+            <ul class="list">
+              <li>高亮与色块一律用<b>实色浅底</b>平涂，避免半透明叠色逐像素栅格化导致的预览卡顿。</li>
+              <li>只嵌入衬线 / 黑体 / Times 三款字体并做子集化，导出文件小且文字可检索。</li>
+              <li>词条与规则块设置<b>禁止跨页断开</b>，标题不落单行尾。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-section="specimen">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">03 · 笔记样张</p>
+          <h2>切换主题，验证灰度输出的层级</h2>
+        </div>
+        <p class="lead">右侧是同一份笔记在两种主题下的渲染。切到「灰度打印」，颜色归零后：词头靠加粗、词性靠小号字、错误句靠删除线与 ✗ 符号、正确句靠下划线——信息一个都没丢。</p>
+      </div>
+
+      <div class="specimen-wrap">
+        <div class="side">
+          <div class="panel">
+            <h3>样张元信息</h3>
+            <div class="kv">
+              <div class="line"><span class="k">来源教材</span><span class="v">人教版 · 必修一</span></div>
+              <div class="line"><span class="k">单元</span><span class="v">Unit 3 · Travel Journal</span></div>
+              <div class="line"><span class="k">原书页码</span><span class="v">p. 32–35</span></div>
+              <div class="line"><span class="k">提取词条</span><span class="v">12 词 · 3 语法点</span></div>
+              <div class="line"><span class="k">编辑状态</span><span class="v">已人工校对</span></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>样张构成</h3>
+            <ul class="list">
+              <li><b>词汇词条</b>：悬挂缩进体例，词头 / 音标 / 词性 / 释义 / 例句 / 搭配分层。</li>
+              <li><b>语法纠错</b>：✗ 错句 → ✓ 正句 → 规则框 → 复习状态，对比呈现。</li>
+              <li><b>三线表</b>：时态对照用上下粗线、中间细线，去掉竖线与内框。</li>
+            </ul>
+          </div>
+
+          <div class="callout">
+            这一页同时是 <b>编辑态与打印态</b> 的规格：两个主题共用一套结构，只切换颜色变量。skill 里只维护一份笔记数据。
+          </div>
+        </div>
+
+        <article class="sheet" id="sheet" data-mode="print">
+          <div class="runhead">
+            <span>人教版 必修一 · Unit 3 Travel Journal</span>
+            <span class="accent">原书 p.32–35</span>
+          </div>
+
+          <h1 class="note-h1">Unit 3 重点词汇与语法纠错</h1>
+          <p class="note-passage">自动提取自教材正文与课后练习，经人工校对 · 共 12 词、3 个语法点</p>
+
+          <div class="h2n">
+            <span class="idx">3.1</span>
+            <span class="tt">重点词汇</span>
+            <span class="cnt">4 / 12</span>
+          </div>
+
+          <div class="entry">
+            <div class="l1"><span class="head">improve</span><span class="pron">/ɪmˈpruːv/</span><span class="pos">v.</span> <span class="def">提高；改善</span></div>
+            <div class="ex"><span class="en">Reading every day can <b>improve</b> your English.</span> <span class="zh">每天阅读可以提高你的英语水平。</span></div>
+            <div class="tags">
+              <span class="tag t-phrase">improve on 在…方面有进步</span>
+              <span class="tag t-grammar">improvement n. 改善</span>
+              <span class="tag">高频词</span>
+            </div>
+          </div>
+
+          <div class="entry">
+            <div class="l1"><span class="head">journey</span><span class="pron">/ˈdʒɜːni/</span><span class="pos">n.</span> <span class="def">旅程；行程</span></div>
+            <div class="ex"><span class="en">The journey across the desert took three days.</span> <span class="zh">穿越沙漠的旅程花了三天。</span></div>
+            <div class="tags">
+              <span class="tag t-phrase">go on a journey 去旅行</span>
+              <span class="tag">可数名词</span>
+            </div>
+          </div>
+
+          <div class="h2n">
+            <span class="idx">3.2</span>
+            <span class="tt">语法纠错 · 一般过去时</span>
+            <span class="cnt">错题 1 / 3</span>
+          </div>
+
+          <div class="pair">
+            <div class="line bad"><span class="sign">✗</span><span class="txt">I <b>go</b> to school yesterday.</span></div>
+            <div class="line good"><span class="sign">✓</span><span class="txt">I <b>went</b> to school yesterday.</span></div>
+          </div>
+
+          <div class="rule">
+            <span class="lab">规则</span> · 句中出现 yesterday / last week / in 2020 等过去时间状语时，动词必须用过去式。
+          </div>
+
+          <div class="reviewbar">
+            <span class="pill">明早抽查</span>
+            <span>连续正确 2 次即可摘牌</span>
+          </div>
+
+          <div class="h2n">
+            <span class="idx">3.3</span>
+            <span class="tt">时态对照</span>
+            <span class="cnt">三线表</span>
+          </div>
+
+          <table class="t3">
+            <caption>表 3-1 · 三种常用时态的结构与例句</caption>
+            <thead>
+              <tr><th style="width:22%">时态</th><th style="width:26%">结构</th><th>例句</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="tname">一般现在时</td><td class="tform">do / does</td><td class="ten">She walks to school every day.</td></tr>
+              <tr><td class="tname">一般过去时</td><td class="tform">did (过去式)</td><td class="ten">She walked to school yesterday.</td></tr>
+              <tr><td class="tname">现在进行时</td><td class="tform">be + doing</td><td class="ten">She is walking to school now.</td></tr>
+            </tbody>
+          </table>
+
+          <div class="footpage">— 1 —</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-section="pipeline">
+    <div class="container">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">04 · 生成流程</p>
+          <h2>从教材到笔记，四步都可回看</h2>
+        </div>
+        <p class="lead">每个阶段都保留可追溯信息：提取了哪些词条、来自原书哪一页、人工改过什么。复习时能一键反查教材原文。</p>
+      </div>
+      <div class="pipeline">
+        <div class="step">
+          <div class="no">STEP 01</div>
+          <div class="tt">上传资料</div>
+          <div class="ds">教材或教辅文件，记录来源与单元范围。</div>
+        </div>
+        <div class="step">
+          <div class="no">STEP 02</div>
+          <div class="tt">自动提取</div>
+          <div class="ds">识别重点词汇、短语与语法点，标注原书页码。</div>
+        </div>
+        <div class="step">
+          <div class="no">STEP 03</div>
+          <div class="tt">人工编辑</div>
+          <div class="ds">增删词条、修订释义例句，界面用语义色便于筛选。</div>
+        </div>
+        <div class="step">
+          <div class="no">STEP 04</div>
+          <div class="tt">生成笔记</div>
+          <div class="ds">按打印主题排版，另存为可检索的 PDF。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pagefoot">
+  <div class="container row-between">
+    <span>英语学习笔记 · 设计 Token 预览</span>
+    <span class="meta">论文式排版 · 灰度打印安全 · 彩色标注为编辑界面可选主题</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var sheet = document.getElementById('sheet');
+  var buttons = Array.prototype.slice.call(document.querySelectorAll('.seg button[data-mode]'));
+  function setMode(mode){
+    if(!sheet) return;
+    sheet.setAttribute('data-mode', mode);
+    buttons.forEach(function(b){
+      b.setAttribute('aria-pressed', b.getAttribute('data-mode') === mode ? 'true' : 'false');
+    });
+  }
+  buttons.forEach(function(b){
+    b.addEventListener('click', function(){ setMode(b.getAttribute('data-mode')); });
+  });
+  var printBtn = document.getElementById('printBtn');
+  if(printBtn){
+    printBtn.addEventListener('click', function(){
+      setMode('print');
+      window.print();
+    });
+  }
+  setMode('print');
+})();
+</script>
+</body>
+</html>
