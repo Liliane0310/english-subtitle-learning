@@ -1,0 +1,13 @@
+{
+  "name": "subtitle-note-skill",
+  "version": "1.0.0",
+  "description": "subtitle-note skill 安装器：把美剧/英剧字幕转成 A4 英语预习笔记的 AI 技能",
+  "bin": {
+    "subtitle-note-install": "./install.js"
+  },
+  "scripts": {
+    "install": "node install.js"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}

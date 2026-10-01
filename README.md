@@ -30,6 +30,7 @@ english-subtitle-learning/
 │   └── examples/                   # 演示数据与渲染样张
 ├── samples/                        # 真实生成样例（见下方示例输出）
 ├── docs/                           # README 配图 + 设计 Token 预览
+├── install.sh / install.ps1 / install.js + package.json   # 一键安装器
 ├── english-subtitle-to-note-prompt.md   # 纯提示词版，可贴给任何 AI 使用
 └── .gitignore
 ```
@@ -45,7 +46,36 @@ english-subtitle-learning/
 
 ## 安装
 
-把 `skill/` 复制到技能目录（如 `~/.zcode/skills/subtitle-note/`）即可。之后对 AI 说"字幕笔记""预习笔记""把这集字幕整理成笔记"等就会触发。
+**macOS / Linux（curl 一行装）：**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/<你的用户名>/english-subtitle-learning/main/install.sh | bash
+```
+
+**Windows（PowerShell 一行装）：**
+
+```powershell
+irm https://raw.githubusercontent.com/<你的用户名>/english-subtitle-learning/main/install.ps1 | iex
+```
+
+**任意平台（有 Node 和 Git 即可，无需发布 npm 包）：**
+
+```bash
+npx github:<你的用户名>/english-subtitle-learning
+```
+
+**手动安装（git clone）：**
+
+```bash
+git clone https://github.com/<你的用户名>/english-subtitle-learning.git
+cd english-subtitle-learning && bash install.sh   # Windows 用 .\install.ps1
+```
+
+安装（或更新）就是把 `skill/` 覆盖到 `~/.zcode/skills/subtitle-note/`；卸载直接删除该目录。生成笔记还需要 Python 3（脚本仅用标准库）。
+
+> 发布前记得把 `install.sh` / `install.ps1` / `install.js` 顶部的 `<user>` 默认仓库名改成你的 GitHub 用户名。
+
+安装后新开一个会话，对 AI 说"字幕笔记""预习笔记""把这集字幕整理成笔记"等就会触发。
 
 ## 默认配置
 
