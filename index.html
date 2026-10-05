@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>subtitle-note — 美剧字幕 → 英语预习笔记</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* 纸面与墨色 —— 直接复用笔记模板的色彩身份 */
+      --paper: #FBFAF7;
+      --paper-warm: #F5F3EE;
+      --ink: #1A1A1A;
+      --ink-secondary: #4A4A4A;
+      --ink-tertiary: #8A8A8A;
+      --line: #D8D4CE;
+      --line-light: #E8E4DE;
+      --accent: #2F4E6E;
+      --accent-hover: #1F3E5E;
+      --accent-light: #E8F0F8;
+      --warn: #A6392E;
+      --highlight: #EFE3C8;
+
+      /* 字体 */
+      --font-serif: 'Noto Serif SC', Georgia, 'Songti SC', serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+      /* 间距 */
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 1.5rem;
+      --space-lg: 2.5rem;
+      --space-xl: 4rem;
+      --space-2xl: 6rem;
+      --space-3xl: 8rem;
+
+      /* 圆角 */
+      --radius-sm: 2px;
+      --radius-md: 4px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-serif);
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== 导航 ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(251, 250, 247, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line-light);
+    }
+
+    nav .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--space-md);
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    nav .brand {
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+    }
+
+    nav .brand span {
+      color: var(--accent);
+    }
+
+    nav .links {
+      display: flex;
+      gap: var(--space-lg);
+      list-style: none;
+    }
+
+    nav .links a {
+      text-decoration: none;
+      color: var(--ink-secondary);
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    nav .links a:hover {
+      color: var(--accent);
+    }
+
+    /* ===== 容器 ===== */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--space-md);
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      padding-top: calc(56px + var(--space-3xl));
+      padding-bottom: var(--space-3xl);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: center;
+    }
+
+    .hero-text {
+      max-width: 480px;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent);
+      background: var(--accent-light);
+      padding: 4px 12px;
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--space-md);
+      letter-spacing: 0.05em;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: var(--space-md);
+      color: var(--ink);
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      color: var(--ink-secondary);
+      line-height: 1.8;
+      margin-bottom: var(--space-lg);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 24px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-serif);
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      letter-spacing: 0.01em;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* 笔记预览图 */
+    .hero-visual {
+      position: relative;
+    }
+
+    .note-preview {
+      position: relative;
+      background: white;
+      border-radius: var(--radius-sm);
+      box-shadow:
+        0 1px 2px rgba(0,0,0,0.04),
+        0 4px 12px rgba(0,0,0,0.06),
+        0 16px 48px rgba(0,0,0,0.08);
+      padding: var(--space-lg);
+      transform: rotate(-1deg);
+      transition: transform 0.4s ease;
+    }
+
+    .note-preview:hover {
+      transform: rotate(0deg) translateY(-4px);
+    }
+
+    .note-preview::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: 40px;
+      right: 40px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .note-header {
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+
+    .note-header h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .note-header .meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-tertiary);
+    }
+
+    .note-entry {
+      display: flex;
+      gap: var(--space-sm);
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid var(--line-light);
+    }
+
+    .note-entry:last-child {
+      border-bottom: none;
+    }
+
+    .note-num {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 500;
+      min-width: 24px;
+      flex-shrink: 0;
+    }
+
+    .note-content {
+      flex: 1;
+    }
+
+    .note-term {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 2px;
+    }
+
+    .note-ipa {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-tertiary);
+    }
+
+    .note-meaning {
+      font-size: 14px;
+      color: var(--ink-secondary);
+      margin-top: 4px;
+    }
+
+    .note-sentence {
+      font-size: 13px;
+      color: var(--ink-tertiary);
+      margin-top: 4px;
+      font-style: italic;
+    }
+
+    /* ===== 分隔线 ===== */
+    .divider {
+      border: none;
+      height: 1px;
+      background: var(--line);
+      margin: 0;
+    }
+
+    /* ===== 功能介绍 ===== */
+    .features {
+      padding: var(--space-3xl) 0;
+      background: var(--paper-warm);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: var(--space-2xl);
+    }
+
+    .section-header h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: var(--space-sm);
+    }
+
+    .section-header p {
+      color: var(--ink-secondary);
+      font-size: 17px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+    }
+
+    .step {
+      text-align: center;
+      padding: var(--space-lg);
+    }
+
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 500;
+      border-radius: 50%;
+      margin-bottom: var(--space-md);
+    }
+
+    .step h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: var(--space-xs);
+    }
+
+    .step p {
+      font-size: 15px;
+      color: var(--ink-secondary);
+      line-height: 1.7;
+    }
+
+    /* ===== 安装 ===== */
+    .install {
+      padding: var(--space-3xl) 0;
+    }
+
+    .install-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+    }
+
+    .install-text h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: var(--space-sm);
+    }
+
+    .install-text > p {
+      color: var(--ink-secondary);
+      font-size: 17px;
+      margin-bottom: var(--space-lg);
+    }
+
+    .install-methods {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .method {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .method-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--paper-warm);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .method-header:hover {
+      background: var(--line-light);
+    }
+
+    .method-label {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .method-label .platform {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-tertiary);
+      font-weight: 400;
+      margin-left: var(--space-xs);
+    }
+
+    .method-toggle {
+      font-size: 12px;
+      color: var(--ink-tertiary);
+      transition: transform 0.2s;
+    }
+
+    .method.open .method-toggle {
+      transform: rotate(180deg);
+    }
+
+    .method-body {
+      padding: var(--space-sm) var(--space-md);
+      border-top: 1px solid var(--line-light);
+    }
+
+    .code-block {
+      position: relative;
+      background: var(--ink);
+      color: #E8E4DE;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      line-height: 1.6;
+    }
+
+    .code-block .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(255,255,255,0.1);
+      color: var(--ink-tertiary);
+      border: none;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .code-block .copy-btn:hover {
+      background: rgba(255,255,255,0.2);
+      color: white;
+    }
+
+    .code-block .copy-btn.copied {
+      background: var(--accent);
+      color: white;
+    }
+
+    .manual-install {
+      margin-top: var(--space-lg);
+      padding: var(--space-md);
+      background: var(--paper-warm);
+      border-radius: var(--radius-md);
+      border: 1px dashed var(--line);
+    }
+
+    .manual-install h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: var(--space-xs);
+    }
+
+    .manual-install p {
+      font-size: 14px;
+      color: var(--ink-secondary);
+    }
+
+    /* ===== 示例 ===== */
+    .examples {
+      padding: var(--space-3xl) 0;
+      background: var(--paper-warm);
+    }
+
+    .examples-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-lg);
+      margin-top: var(--space-xl);
+    }
+
+    .example-card {
+      background: white;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .example-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    .example-thumb {
+      width: 100%;
+      aspect-ratio: 16/10;
+      background: var(--paper-warm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--line-light);
+      overflow: hidden;
+    }
+
+    .example-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    .example-thumb .placeholder {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-tertiary);
+    }
+
+    .example-info {
+      padding: var(--space-md);
+    }
+
+    .example-info h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .example-info .example-meta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-tertiary);
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      padding: var(--space-xl) 0;
+      border-top: 1px solid var(--line);
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 14px;
+      color: var(--ink-tertiary);
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 768px) {
+      .hero-grid,
+      .install-grid,
+      .examples-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      nav .links {
+        display: none;
+      }
+
+      .hero {
+        padding-top: calc(56px + var(--space-xl));
+      }
+
+      .note-preview {
+        transform: rotate(0deg);
+        margin-top: var(--space-lg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 导航 -->
+  <nav>
+    <div class="container">
+      <div class="brand"><span>subtitle</span>-note</div>
+      <ul class="links">
+        <li><a href="#features">功能</a></li>
+        <li><a href="#install">安装</a></li>
+        <li><a href="#examples">示例</a></li>
+        <li><a href="https://github.com/Liliane0310/english-subtitle-learning" target="_blank">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-text">
+          <div class="hero-tag">AI SKILL</div>
+          <h1>美剧字幕<em>→</em>英语预习笔记</h1>
+          <p class="hero-desc">
+            给 AI 一个剧名和季集，它自动获取字幕、筛选生词、编写释义，生成一份可直接打印的 A4 预习笔记。看剧前先过一遍，跟上台词不费力。
+          </p>
+          <div class="hero-actions">
+            <a href="#install" class="btn btn-primary">一键安装</a>
+            <a href="#examples" class="btn btn-secondary">查看示例</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="note-preview">
+            <div class="note-header">
+              <h3>Zootopia 2 · S01E01</h3>
+              <div class="meta">subtitle-note · 24 条表达</div>
+            </div>
+            <div class="note-entry">
+              <span class="note-num">01</span>
+              <div class="note-content">
+                <div class="note-term">reluctant <span class="note-ipa">/rɪˈlʌktənt/</span></div>
+                <div class="note-meaning">不情愿的，勉强的</div>
+                <div class="note-sentence">"She was reluctant to sign."</div>
+              </div>
+            </div>
+            <div class="note-entry">
+              <span class="note-num">02</span>
+              <div class="note-content">
+                <div class="note-term">pull off <span class="note-ipa">/pʊl ɔːf/</span></div>
+                <div class="note-meaning">办成（难事）</div>
+                <div class="note-sentence">"They pulled it off anyway."</div>
+              </div>
+            </div>
+            <div class="note-entry">
+              <span class="note-num">03</span>
+              <div class="note-content">
+                <div class="note-term">call it a day <span class="note-ipa">phr.</span></div>
+                <div class="note-meaning">收工，到此为止</div>
+                <div class="note-sentence">"Let's call it a day."</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- 功能 -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>三步生成预习笔记</h2>
+        <p>给剧名 → AI 选词 → 得笔记，全程无需手动整理</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>提供字幕</h3>
+          <p>直接上传 .srt / .ass / .vtt / .txt 字幕文件，或告诉 AI 剧名与季集号，由它去检索</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>AI 智能选词</h3>
+          <p>按超纲实词、短语搭配、俚语口语、派生词四级优先级筛选，结合语境编写释义</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>输出笔记</h3>
+          <p>生成自包含 A4 HTML（可直接打印/导出 PDF）+ Markdown 摘要，附回看时间点</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 安装 -->
+  <section class="install" id="install">
+    <div class="container">
+      <div class="install-grid">
+        <div class="install-text">
+          <h2>安装</h2>
+          <p>三种方式，一行命令即可完成安装。安装后新开一个会话，对 AI 说"字幕笔记""预习笔记"即可触发。</p>
+
+          <div class="install-methods">
+            <div class="method" data-open="true">
+              <div class="method-header" onclick="toggleMethod(this)">
+                <span class="method-label"><code>curl</code> <span class="platform">macOS / Linux</span></span>
+                <span class="method-toggle">▼</span>
+              </div>
+              <div class="method-body">
+                <div class="code-block">
+                  <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                  <code>curl -fsSL https://raw.githubusercontent.com/Liliane0310/english-subtitle-learning/main/install.sh | bash</code>
+                </div>
+              </div>
+            </div>
+
+            <div class="method">
+              <div class="method-header" onclick="toggleMethod(this)">
+                <span class="method-label"><code>PowerShell</code> <span class="platform">Windows</span></span>
+                <span class="method-toggle">▼</span>
+              </div>
+              <div class="method-body" style="display:none">
+                <div class="code-block">
+                  <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                  <code>irm https://raw.githubusercontent.com/Liliane0310/english-subtitle-learning/main/install.ps1 | iex</code>
+                </div>
+              </div>
+            </div>
+
+            <div class="method">
+              <div class="method-header" onclick="toggleMethod(this)">
+                <span class="method-label"><code>npx</code> <span class="platform">任意平台（需 Node）</span></span>
+                <span class="method-toggle">▼</span>
+              </div>
+              <div class="method-body" style="display:none">
+                <div class="code-block">
+                  <button class="copy-btn" onclick="copyCode(this)">复制</button>
+                  <code>npx github:Liliane0310/english-subtitle-learning</code>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="manual-install">
+            <h4>手动安装</h4>
+            <p>git clone 后执行 install.sh（Windows 用 install.ps1）</p>
+          </div>
+        </div>
+
+        <div class="install-visual">
+          <div class="section-header" style="text-align:left; margin-bottom:var(--space-md)">
+            <h2 style="font-size:22px">触发词</h2>
+            <p style="font-size:15px">安装后，对 AI 说以下任意一种即可触发</p>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:var(--space-xs)">
+            <div style="padding:var(--space-sm) var(--space-md); background:var(--paper-warm); border-radius:var(--radius-md); border-left:3px solid var(--accent); font-size:15px;">"字幕笔记"</div>
+            <div style="padding:var(--space-sm) var(--space-md); background:var(--paper-warm); border-radius:var(--radius-md); border-left:3px solid var(--accent); font-size:15px;">"预习笔记"</div>
+            <div style="padding:var(--space-sm) var(--space-md); background:var(--paper-warm); border-radius:var(--radius-md); border-left:3px solid var(--accent); font-size:15px;">"看剧前先学词"</div>
+            <div style="padding:var(--space-sm) var(--space-md); background:var(--paper-warm); border-radius:var(--radius-md); border-left:3px solid var(--accent); font-size:15px;">"把这集字幕整理成笔记"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 示例 -->
+  <section class="examples" id="examples">
+    <div class="container">
+      <div class="section-header">
+        <h2>示例输出</h2>
+        <p>真实生成的预习笔记，点击可预览</p>
+      </div>
+      <div class="examples-grid">
+        <a href="./samples/note-zootopia-2-2025.html" class="example-card" target="_blank">
+          <div class="example-thumb">
+            <img src="./docs/preview-zootopia-note.png" alt="《Zootopia 2》预习笔记预览" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="placeholder" style="display:none">《Zootopia 2》笔记预览</div>
+          </div>
+          <div class="example-info">
+            <h3>《Zootopia 2》(2025)</h3>
+            <div class="example-meta">24 条表达 · 字幕检索自 subtitlecat.com</div>
+          </div>
+        </a>
+        <a href="./samples/note-spongebob-movie-2025.html" class="example-card" target="_blank">
+          <div class="example-thumb">
+            <img src="./docs/preview-spongebob-note.png" alt="《The SpongeBob Movie》预习笔记预览" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="placeholder" style="display:none">《The SpongeBob Movie》笔记预览</div>
+          </div>
+          <div class="example-info">
+            <h3>《The SpongeBob Movie》(2025)</h3>
+            <div class="example-meta">24 条表达 · 字幕由用户提供</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>
+        <a href="https://github.com/Liliane0310/english-subtitle-learning" target="_blank">GitHub</a> ·
+        仅供学习使用，请尊重版权，支持正版
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // 折叠面板
+    function toggleMethod(header) {
+      const method = header.parentElement;
+      const body = method.querySelector('.method-body');
+      const isOpen = method.classList.contains('open');
+
+      if (isOpen) {
+        method.classList.remove('open');
+        body.style.display = 'none';
+      } else {
+        // 关闭其他
+        document.querySelectorAll('.method.open').forEach(m => {
+          m.classList.remove('open');
+          m.querySelector('.method-body').style.display = 'none';
+        });
+        method.classList.add('open');
+        body.style.display = 'block';
+      }
+    }
+
+    // 复制代码
+    function copyCode(btn) {
+      const code = btn.nextElementSibling.textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        const original = btn.textContent;
+        btn.textContent = '已复制';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    // 默认展开第一个
+    document.querySelector('.method[data-open="true"] .method-body').style.display = 'block';
+    document.querySelector('.method[data-open="true"]').classList.add('open');
+  </script>
+
+</body>
+</html>
